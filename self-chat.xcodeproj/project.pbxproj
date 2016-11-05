@@ -196,6 +196,7 @@
 				TargetAttributes = {
 					25E417801DCB9EBC00D1E99A = {
 						CreatedOnToolsVersion = 8.0;
+						DevelopmentTeam = FY284969S6;
 						ProvisioningStyle = Automatic;
 					};
 					25E417971DCB9EBD00D1E99A = {
@@ -414,6 +415,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = FY284969S6;
 				INFOPLIST_FILE = "self-chat/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "ru.reutskiy.self-chat";
@@ -426,6 +428,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = FY284969S6;
 				INFOPLIST_FILE = "self-chat/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "ru.reutskiy.self-chat";
