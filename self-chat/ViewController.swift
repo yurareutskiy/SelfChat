@@ -8,6 +8,8 @@
 
 import UIKit
 import AVFoundation
+import Photos
+
 
 class ViewController: UIViewController, UITextViewDelegate {
 
@@ -19,13 +21,27 @@ class ViewController: UIViewController, UITextViewDelegate {
     
     @IBOutlet var actionButtons: [UIButton]!
     let placeHolderText = "Ваше сообщение..."
-    var isAddditionViewOpen = false
+    var isAddditionViewOpen: Bool {
+        get {
+            return isCameraViewOpen || isGalleryOpens
+        }
+    }
     
     // Camera's view and buttons
     var cameraView: UIView?
     var expandButton: UIButton?
     var switchButton: UIButton?
     var takeShotButton: UIButton?
+    var isCameraViewOpen = false
+    
+    // Gallery
+    var galleryView: UIView?
+    var isGalleryOpens = false
+    let galleryHeight: CGFloat = 140
+    var allPhotos: PHFetchResult<PHAsset>!
+    var scrollPhotosView: UIScrollView?
+    let imageManager = PHCachingImageManager()
+    let thumbnailSize = CGSize(width: 80 * UIScreen.main.scale, height: 80 * UIScreen.main.scale)
     
     //Camera Capture requiered properties
     var videoDataOutput: AVCaptureVideoDataOutput!
@@ -67,6 +83,10 @@ class ViewController: UIViewController, UITextViewDelegate {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    deinit {
+        PHPhotoLibrary.shared().unregisterChangeObserver(self)
     }
     
     override var prefersStatusBarHidden: Bool {
@@ -161,7 +181,7 @@ class ViewController: UIViewController, UITextViewDelegate {
             session.startRunning()
         }
         UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut, animations: {
-            if self.isAddditionViewOpen {
+            if self.isCameraViewOpen {
                 self.inputBottomContainerConstraint.constant = 0
                 self.cameraView!.frame.origin.y = self.view.frame.size.height
             } else {
@@ -172,13 +192,93 @@ class ViewController: UIViewController, UITextViewDelegate {
             self.view.layoutIfNeeded()
             
         }, completion: { (finished) in
-            self.isAddditionViewOpen = !self.isAddditionViewOpen
+            self.isCameraViewOpen = !self.isCameraViewOpen
         })
         
     }
     
+    @IBAction func galleryAction(_ sender: Any) {
+        if galleryView == nil {
+            galleryView = UIView(frame: CGRect(x: 0.0, y: view.frame.size.height, width: view.frame.size.width, height: galleryHeight))
+            
+            
+            
+            let galleryButton = UIButton(frame: CGRect(x: 0, y: 90, width: view.frame.width, height: 54))
+            galleryButton.setTitle("Выбрать фото из галереи", for: .normal)
+            galleryButton.setTitleColor(UIColor.blue, for: .normal)
+            galleryButton.addTarget(self, action: #selector(galleryPickerOpen(_ :)), for: .touchUpInside)
+            let topButtonBorder = UIView(frame: galleryButton.frame)
+            topButtonBorder.frame.size.height = 0.5
+            topButtonBorder.backgroundColor = UIColor.lightGray
+            galleryView?.addSubview(topButtonBorder)
+            galleryView?.addSubview(galleryButton)
+            
+            view.addSubview(galleryView!)
+
+            loadPhotos()
+        }
+        UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut, animations: {
+            if self.isGalleryOpens {
+                self.inputBottomContainerConstraint.constant = 0
+                self.galleryView!.frame.origin.y = self.view.frame.size.height
+            } else {
+                self.inputBottomContainerConstraint.constant = self.galleryHeight
+                self.galleryView!.frame.origin.y -= self.galleryHeight
+            }
+            
+            self.view.layoutIfNeeded()
+            
+        }, completion: { (finished) in
+            self.isGalleryOpens = !self.isGalleryOpens
+        })
+    }
     
+    func galleryPickerOpen(_ sender: Any) {
+        
+    }
     
+    func loadPhotos() {
+        
+        if scrollPhotosView == nil {
+            scrollPhotosView = UIScrollView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 90))
+            scrollPhotosView?.alwaysBounceVertical = false
+            scrollPhotosView?.showsHorizontalScrollIndicator = false
+            scrollPhotosView?.backgroundColor = UIColor(colorLiteralRed: 250/255, green: 250/255, blue: 250/255, alpha: 1)
+            galleryView?.addSubview(scrollPhotosView!)
+        }
+        
+        // Create a PHFetchResult object for each section in the table view.
+        let allPhotosOptions = PHFetchOptions()
+        allPhotosOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
+        allPhotosOptions.fetchLimit = 20
+        allPhotos = PHAsset.fetchAssets(with: allPhotosOptions)
+        PHPhotoLibrary.shared().register(self)
+        
+        if allPhotos.count == 0 {
+            return
+        }
+        
+        for counter in 0...(allPhotos.count - 1) {
+            let asset = allPhotos.object(at: counter)
+            imageManager.requestImage(for: asset, targetSize: thumbnailSize, contentMode: .aspectFit, options: nil, resultHandler: { (image, _) in
+                let rect = CGRect(x: counter * 85 + 5, y: 5, width: 80, height: 80)
+                let imageButton = UIButton(frame: rect)
+                let imageView = UIImageView(frame: imageButton.bounds)
+                imageView.image = image
+                imageView.contentMode = .scaleAspectFill
+                imageView.clipsToBounds = true
+                imageButton.addSubview(imageView)
+                imageButton.tag = counter
+                imageButton.addTarget(self, action: #selector(self.imageDidPickup(_ :)), for: .touchUpInside)
+                self.scrollPhotosView?.contentSize = CGSize(width: (counter + 1) * 90, height: 90)
+                self.scrollPhotosView?.addSubview(imageButton)
+            })
+        }
+    }
+    
+    func imageDidPickup(_ sender: UIButton) {
+        
+    }
 
 }
 
@@ -379,6 +479,29 @@ extension ViewController:  AVCaptureVideoDataOutputSampleBufferDelegate{
             })
         }
         isCameraExpanded = !isCameraExpanded
+    }
+}
+
+// MARK: PHPhotoLibraryChangeObserver
+extension ViewController: PHPhotoLibraryChangeObserver {
+    
+    func photoLibraryDidChange(_ changeInstance: PHChange) {
+        // Change notifications may be made on a background queue. Re-dispatch to the
+        // main queue before acting on the change as we'll be updating the UI.
+        DispatchQueue.main.sync {
+            // Check each of the three top-level fetches for changes.
+            
+            if let changeDetails = changeInstance.changeDetails(for: allPhotos) {
+                // Update the cached fetch result.
+                allPhotos = changeDetails.fetchResultAfterChanges
+                scrollPhotosView = nil
+                loadPhotos()
+                // (The table row for this one doesn't need updating, it always says "All Photos".)
+            }
+            
+            // Update the cached fetch results, and reload the table sections to match.
+            //...
+        }
     }
 }
 
