@@ -8,6 +8,11 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <array key="pfagorasanspro-light.ttf">
+            <string>PFAgoraSansPro-Light</string>
+        </array>
+    </customFonts>
     <scenes>
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
@@ -116,7 +121,61 @@
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="e9q-5u-PWd" userLabel="content container">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="577"/>
+                                <subviews>
+                                    <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="jKs-Uj-tyq">
+                                        <rect key="frame" x="0.0" y="20" width="375" height="553"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <collectionViewLayout key="collectionViewLayout" id="xax-6m-foA" customClass="ChatLayout" customModule="self_chat" customModuleProvider="target"/>
+                                        <cells>
+                                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="cell" id="Lrn-eP-QRC" customClass="BubbleCollectionViewCell" customModule="self_chat" customModuleProvider="target">
+                                                <rect key="frame" x="-1" y="0.0" width="376" height="50"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                                    <rect key="frame" x="0.0" y="0.0" width="376" height="50"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <subviews>
+                                                        <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="k7o-J4-LXc" customClass="UIImageView">
+                                                            <rect key="frame" x="307" y="4" width="60" height="40"/>
+                                                            <subviews>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="n58-OV-12O">
+                                                                    <rect key="frame" x="12" y="12" width="36" height="16"/>
+                                                                    <fontDescription key="fontDescription" name="PFAgoraSansPro-Light" family="PF Agora Sans Pro" pointSize="16"/>
+                                                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
+                                                            </subviews>
+                                                            <color key="backgroundColor" red="0.047058823529411764" green="0.52156862745098043" blue="0.99607843137254903" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="bottom" secondItem="n58-OV-12O" secondAttribute="bottom" constant="12" id="7Sc-kv-Mym"/>
+                                                                <constraint firstItem="n58-OV-12O" firstAttribute="leading" secondItem="k7o-J4-LXc" secondAttribute="leading" constant="12" id="ED3-fJ-cQN"/>
+                                                                <constraint firstAttribute="trailing" secondItem="n58-OV-12O" secondAttribute="trailing" constant="12" id="UT1-FM-bbl"/>
+                                                                <constraint firstItem="n58-OV-12O" firstAttribute="top" secondItem="k7o-J4-LXc" secondAttribute="top" constant="12" id="yGa-VY-HAn"/>
+                                                            </constraints>
+                                                        </view>
+                                                    </subviews>
+                                                </view>
+                                                <constraints>
+                                                    <constraint firstAttribute="trailing" secondItem="k7o-J4-LXc" secondAttribute="trailing" constant="8" id="46V-ex-Ml1"/>
+                                                    <constraint firstItem="k7o-J4-LXc" firstAttribute="top" secondItem="Lrn-eP-QRC" secondAttribute="top" constant="4" id="LYc-i3-Xw5"/>
+                                                    <constraint firstItem="k7o-J4-LXc" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Lrn-eP-QRC" secondAttribute="leading" constant="70" id="ojT-R3-0Yq"/>
+                                                    <constraint firstAttribute="bottom" secondItem="k7o-J4-LXc" secondAttribute="bottom" constant="4" id="v6C-YV-SSM"/>
+                                                </constraints>
+                                                <size key="customSize" width="376" height="50"/>
+                                                <connections>
+                                                    <outlet property="imageView" destination="k7o-J4-LXc" id="gqT-W6-Kac"/>
+                                                    <outlet property="textLabel" destination="n58-OV-12O" id="qYf-N4-2QK"/>
+                                                </connections>
+                                            </collectionViewCell>
+                                        </cells>
+                                    </collectionView>
+                                </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="jKs-Uj-tyq" firstAttribute="top" secondItem="e9q-5u-PWd" secondAttribute="top" constant="20" id="E1G-fv-Gez"/>
+                                    <constraint firstAttribute="trailing" secondItem="jKs-Uj-tyq" secondAttribute="trailing" id="QSh-Vh-wwu"/>
+                                    <constraint firstItem="jKs-Uj-tyq" firstAttribute="leading" secondItem="e9q-5u-PWd" secondAttribute="leading" id="sMv-YR-sg7"/>
+                                    <constraint firstAttribute="bottom" secondItem="jKs-Uj-tyq" secondAttribute="bottom" id="u0D-RF-xnw"/>
+                                </constraints>
                             </view>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -131,6 +190,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="collectionView" destination="jKs-Uj-tyq" id="Zsl-b4-WKE"/>
                         <outlet property="contentContainerView" destination="e9q-5u-PWd" id="4gg-Fv-rvf"/>
                         <outlet property="inputBottomContainerConstraint" destination="4Ih-S7-yly" id="jFH-qc-HhZ"/>
                         <outlet property="inputContainerHeightConstraint" destination="VNu-82-xOH" id="XTo-0G-XiE"/>

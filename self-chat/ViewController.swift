@@ -9,6 +9,8 @@
 import UIKit
 import AVFoundation
 import Photos
+import MapKit
+import CoreLocation
 
 
 class ViewController: UIViewController, UITextViewDelegate {
@@ -18,6 +20,12 @@ class ViewController: UIViewController, UITextViewDelegate {
     @IBOutlet weak var sendButton: UIButton!
     @IBOutlet weak var contentContainerView: UIView!
     @IBOutlet weak var inputTextView: UITextView!
+    
+    
+    @IBOutlet weak var collectionView: UICollectionView!
+    var messageArray: [Message] = []
+
+    
     
     @IBOutlet var actionButtons: [UIButton]!
     let placeHolderText = "Ваше сообщение..."
@@ -33,6 +41,10 @@ class ViewController: UIViewController, UITextViewDelegate {
     var switchButton: UIButton?
     var takeShotButton: UIButton?
     var isCameraViewOpen = false
+    let capturePhoto = AVCapturePhotoOutput()
+    
+    // Location
+    var locationManager: CLLocationManager
     
     // Gallery
     var galleryView: UIView?
@@ -63,6 +75,11 @@ class ViewController: UIViewController, UITextViewDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(ViewController.keyboardWillShow(_:)), name: .UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(ViewController.keyboardWillHide(_:)), name: .UIKeyboardWillHide, object: nil)
 
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        if let layout = collectionView?.collectionViewLayout as? ChatLayout {
+            layout.delegate = self
+        }
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -164,7 +181,12 @@ class ViewController: UIViewController, UITextViewDelegate {
     
     @IBAction func sendMessageAction(_ sender: Any) {
         print("User send: \(inputTextView.text)")
+        let message = Message(messageText: inputTextView.text)
         inputTextView.text = ""
+        textViewDidChange(inputTextView)
+        messageArray.append(message)
+        collectionView.reloadData()
+        
     }
     
     @IBAction func photoAction(_ sender: Any) {
@@ -195,6 +217,21 @@ class ViewController: UIViewController, UITextViewDelegate {
             self.isCameraViewOpen = !self.isCameraViewOpen
         })
         
+    }
+    
+    @IBAction func sendLocation(_ sender: Any) {
+        let locationManager = CLLocationManager()
+        // Ask for Authorisation from the User.
+        locationManager.requestAlwaysAuthorization()
+        
+        // For use in foreground
+        locationManager.requestWhenInUseAuthorization()
+        
+        if CLLocationManager.locationServicesEnabled() {
+            locationManager.delegate = self
+            locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+            locationManager.startUpdatingLocation()
+        }
     }
     
     @IBAction func galleryAction(_ sender: Any) {
@@ -283,7 +320,7 @@ class ViewController: UIViewController, UITextViewDelegate {
 }
 
 // AVCaptureVideoDataOutputSampleBufferDelegate protocol and related methods
-extension ViewController:  AVCaptureVideoDataOutputSampleBufferDelegate{
+extension ViewController:  AVCaptureVideoDataOutputSampleBufferDelegate, AVCapturePhotoCaptureDelegate {
     func setupAVCapture(){
         session.sessionPreset = AVCaptureSessionPreset352x288;
         
@@ -329,6 +366,16 @@ extension ViewController:  AVCaptureVideoDataOutputSampleBufferDelegate{
         if session.canAddOutput(self.videoDataOutput){
             session.addOutput(self.videoDataOutput);
         }
+        
+        if session.canAddOutput(self.capturePhoto) {
+            session.addOutput(self.capturePhoto)
+        }
+        
+        /*[
+            AVVideoCodecKey  : AVVideoCodecJPEG,
+            AVVideoQualityKey: 0.9
+        ]*/
+        
         self.videoDataOutput.connection(withMediaType: AVMediaTypeVideo).isEnabled = true;
         
         self.previewLayer = AVCaptureVideoPreviewLayer(session: self.session);
@@ -350,12 +397,14 @@ extension ViewController:  AVCaptureVideoDataOutputSampleBufferDelegate{
         cameraView?.addSubview(expandButton!)
         
         takeShotButton = UIButton(frame: CGRect(x: (view.frame.width / 2) - (widthTakingButton / 2), y: cameraView!.frame.height - (20 + widthTakingButton), width: widthTakingButton, height: widthTakingButton))
+        takeShotButton?.addTarget(self, action: #selector(takeCapture(_ :)), for: .touchUpInside)
         takeShotButton?.setTitle("Отпр.", for: .normal)
         takeShotButton?.setTitleColor(UIColor.white, for: .normal)
         takeShotButton?.layer.borderColor = UIColor.white.cgColor
         takeShotButton?.layer.borderWidth = 2
         takeShotButton?.layer.cornerRadius = widthTakingButton / 2
         cameraView?.addSubview(takeShotButton!)
+
         
         session.startRunning()
         
@@ -480,6 +529,35 @@ extension ViewController:  AVCaptureVideoDataOutputSampleBufferDelegate{
         }
         isCameraExpanded = !isCameraExpanded
     }
+    
+    func takeCapture(_ sender: UIButton) {
+        
+        let settings = AVCapturePhotoSettings()
+        settings.isAutoStillImageStabilizationEnabled = true
+        //settings.isHighResolutionPhotoEnabled = true
+        self.capturePhoto.capturePhoto(with: settings, delegate: self as AVCapturePhotoCaptureDelegate)
+    }
+    
+    func capture(_ captureOutput: AVCapturePhotoOutput, didFinishProcessingPhotoSampleBuffer photoSampleBuffer: CMSampleBuffer?, previewPhotoSampleBuffer: CMSampleBuffer?, resolvedSettings: AVCaptureResolvedPhotoSettings, bracketSettings: AVCaptureBracketedStillImageSettings?, error: Error?) {
+        
+        if let error = error {
+            print(error.localizedDescription)
+        }
+        
+        if let sampleBuffer = photoSampleBuffer {
+            let previewBuffer = previewPhotoSampleBuffer
+            let dataImage = AVCapturePhotoOutput.jpegPhotoDataRepresentation(forJPEGSampleBuffer: sampleBuffer, previewPhotoSampleBuffer: previewBuffer)
+            let image = UIImage(data: dataImage!)
+            let message = Message(messageImage: dataImage!)
+            messageArray.append(message)
+            collectionView.reloadData()
+            UIImageWriteToSavedPhotosAlbum(image!, nil, nil, nil)
+            
+        } else {
+            
+        }
+    }
+    
 }
 
 // MARK: PHPhotoLibraryChangeObserver
@@ -504,4 +582,120 @@ extension ViewController: PHPhotoLibraryChangeObserver {
         }
     }
 }
+
+extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource, ChatLayoutDelegate {
+    
+
+    func layoutCollectionView() -> UICollectionViewLayout {
+        var layout = collectionView.collectionViewLayout
+        
+        return layout
+    }
+    
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return messageArray.count
+    }
+    
+    
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell: BubbleCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! BubbleCollectionViewCell
+        
+
+        let message = messageArray[indexPath.row]
+        if message.type == .text {
+            cell.textLabel.isHidden = false
+            cell.textLabel.text = message.text
+            cell.imageView.image = nil
+        } else if message.type == .image {
+            cell.textLabel.isHidden = true
+            cell.imageView.image = UIImage(data: message.image!)
+        }
+        
+        cell.imageView.layer.cornerRadius = 15
+        cell.imageView.clipsToBounds = true
+        
+        return cell
+    }
+    
+
+    func collectionView(_ collectionView:UICollectionView, heightForItemAtIndexPath indexPath: NSIndexPath, withWidth width: CGFloat) -> CGFloat {
+        
+        
+        let textPadding = CGFloat(4)
+        let textMargin = CGFloat(12)
+        let message = messageArray[indexPath.item]
+        var contentHeight: CGFloat = 0
+        let maximumWidth = collectionView.bounds.width - 70 - 32
+
+        if message.type == .text {
+            let font = UIFont(name: "pfagorasanspro-light", size: 16)!
+            let rect = NSString(string: message.text!).boundingRect(with: CGSize(width: maximumWidth, height: CGFloat(MAXFLOAT)), options: .usesLineFragmentOrigin, attributes: [NSFontAttributeName: font], context: nil)
+            contentHeight = rect.height
+        } else if message.type == .image {
+            let image: UIImage = UIImage(data: message.image!)!
+            let heightInPoints = image.size.height
+            let heightInPixels = heightInPoints * image.scale
+            
+            let widthInPoints = image.size.width
+            let widthInPixels = widthInPoints * image.scale
+            
+            if widthInPixels <= collectionView.bounds.width / 2 {
+                contentHeight = heightInPixels
+            } else {
+                contentHeight = ((collectionView.bounds.width / 2) / widthInPixels) * heightInPixels
+            }
+        }
+        
+        let height = textMargin * 2 + textPadding * 2 + ceil(contentHeight)
+        
+        return height
+    }
+
+}
+
+extension ViewController: CLLocationManagerDelegate {
+    // Takes a snapshot and calls back with the generated UIImage
+    func takeSnapshot(byLocation location: CLLocation, withCallback: @escaping (UIImage?, NSError?) -> ()) {
+        let options = MKMapSnapshotOptions()
+        let span = MKCoordinateSpanMake(0.005, 0.005)
+        options.region = MKCoordinateRegion(center: location.coordinate, span: span)
+        options.size = CGSize(width: 200, height: 200)
+        options.scale = UIScreen.main.scale
+        
+        let snapshotter = MKMapSnapshotter(options: options)
+        snapshotter.start() { snapshot, error in
+            guard snapshot != nil else {
+                withCallback(nil, error as NSError?)
+                return
+            }
+            
+            withCallback(snapshot!.image, nil)
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        var locValue:CLLocationCoordinate2D = manager.location!.coordinate
+        let location = locations.first
+        if location!.verticalAccuracy < Double(100) {
+            takeSnapshot(byLocation: location!, withCallback: { (image, error) in
+                let message = Message(messageImage: UIImagePNGRepresentation(image!)!)
+                self.messageArray.append(message)
+                self.collectionView.reloadData()
+            })
+            locationManager.stopUpdatingLocation()
+        }
+        
+    }
+}
+
+
+
+
+
+
+
+
+
 
