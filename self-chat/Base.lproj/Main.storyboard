@@ -69,6 +69,9 @@
                                             <constraint firstAttribute="height" constant="45" id="lgg-25-FR5"/>
                                         </constraints>
                                         <state key="normal" image="geo"/>
+                                        <connections>
+                                            <action selector="sendLocation:" destination="BYZ-38-t0r" eventType="touchUpInside" id="4xK-ZJ-oIo"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="p3e-Sa-JMk">
                                         <rect key="frame" x="321" y="12" width="46" height="30"/>

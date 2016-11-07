@@ -44,7 +44,8 @@ class ViewController: UIViewController, UITextViewDelegate {
     let capturePhoto = AVCapturePhotoOutput()
     
     // Location
-    var locationManager: CLLocationManager
+    var locationManager: CLLocationManager = CLLocationManager()
+    var isLocationActive = false
     
     // Gallery
     var galleryView: UIView?
@@ -54,6 +55,7 @@ class ViewController: UIViewController, UITextViewDelegate {
     var scrollPhotosView: UIScrollView?
     let imageManager = PHCachingImageManager()
     let thumbnailSize = CGSize(width: 80 * UIScreen.main.scale, height: 80 * UIScreen.main.scale)
+    let picker = UIImagePickerController()
     
     //Camera Capture requiered properties
     var videoDataOutput: AVCaptureVideoDataOutput!
@@ -185,8 +187,8 @@ class ViewController: UIViewController, UITextViewDelegate {
         inputTextView.text = ""
         textViewDidChange(inputTextView)
         messageArray.append(message)
-        collectionView.reloadData()
-        
+        collectionView.insertItems(at: [NSIndexPath.init(item: messageArray.count - 1, section: 0) as IndexPath])
+        collectionView.scrollToItem(at: IndexPath.init(item: self.messageArray.count - 1, section: 0), at: .bottom, animated: true)
     }
     
     @IBAction func photoAction(_ sender: Any) {
@@ -220,9 +222,7 @@ class ViewController: UIViewController, UITextViewDelegate {
     }
     
     @IBAction func sendLocation(_ sender: Any) {
-        let locationManager = CLLocationManager()
-        // Ask for Authorisation from the User.
-        locationManager.requestAlwaysAuthorization()
+        
         
         // For use in foreground
         locationManager.requestWhenInUseAuthorization()
@@ -231,6 +231,7 @@ class ViewController: UIViewController, UITextViewDelegate {
             locationManager.delegate = self
             locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
             locationManager.startUpdatingLocation()
+            isLocationActive = true
         }
     }
     
@@ -269,10 +270,7 @@ class ViewController: UIViewController, UITextViewDelegate {
             self.isGalleryOpens = !self.isGalleryOpens
         })
     }
-    
-    func galleryPickerOpen(_ sender: Any) {
-        
-    }
+
     
     func loadPhotos() {
         
@@ -314,7 +312,16 @@ class ViewController: UIViewController, UITextViewDelegate {
     }
     
     func imageDidPickup(_ sender: UIButton) {
+        let asset = allPhotos.object(at: sender.tag)
+        imageManager.requestImage(for: asset, targetSize: PHImageManagerMaximumSize, contentMode: .default, options: nil, resultHandler: { (image, _) in
+            let dataImage = UIImageJPEGRepresentation(image!, 1)!
+            let message = Message(messageImage: dataImage)
+            self.messageArray.append(message)
+            let indexPath = IndexPath.init(item: self.messageArray.count - 1, section: 0)
+            self.collectionView.insertItems(at: [indexPath])
+            self.collectionView.scrollToItem(at: indexPath, at: .bottom, animated: true)
         
+        })
     }
 
 }
@@ -608,9 +615,14 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource, 
             cell.textLabel.isHidden = false
             cell.textLabel.text = message.text
             cell.imageView.image = nil
-        } else if message.type == .image {
+        } else {
             cell.textLabel.isHidden = true
+            cell.imageView.contentMode = .scaleAspectFit
+            cell.imageView.frame.size.width = 200
+            cell.imageView.frame.size.height = 200
+            cell.imageView.frame.origin.x = view.frame.width - 208
             cell.imageView.image = UIImage(data: message.image!)
+            cell.imageView.clipsToBounds = true
         }
         
         cell.imageView.layer.cornerRadius = 15
@@ -646,6 +658,8 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource, 
             } else {
                 contentHeight = ((collectionView.bounds.width / 2) / widthInPixels) * heightInPixels
             }
+        } else if message.type == .location {
+            contentHeight = 200
         }
         
         let height = textMargin * 2 + textPadding * 2 + ceil(contentHeight)
@@ -678,15 +692,81 @@ extension ViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         var locValue:CLLocationCoordinate2D = manager.location!.coordinate
         let location = locations.first
-        if location!.verticalAccuracy < Double(100) {
-            takeSnapshot(byLocation: location!, withCallback: { (image, error) in
-                let message = Message(messageImage: UIImagePNGRepresentation(image!)!)
-                self.messageArray.append(message)
-                self.collectionView.reloadData()
-            })
+        if location!.verticalAccuracy < Double(100) && isLocationActive == true {
+            isLocationActive = false
             locationManager.stopUpdatingLocation()
+            takeSnapshot(byLocation: location!, withCallback: { (image, error) in
+                var message = Message(messageImage: UIImagePNGRepresentation(image!)!)
+                message.type = .location
+                self.messageArray.append(message)
+                self.collectionView.insertItems(at: [NSIndexPath.init(item: self.messageArray.count - 1, section: 0) as IndexPath])
+                
+                self.collectionView.scrollToItem(at: IndexPath.init(item: 0, section: 0), at: .bottom, animated: true)
+            })
         }
         
+    }
+}
+
+extension ViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+    func galleryPickerOpen(_ sender: Any) {
+        picker.delegate = self
+        picker.allowsEditing = false
+        picker.sourceType = .photoLibrary
+        picker.mediaTypes = UIImagePickerController.availableMediaTypes(for: .photoLibrary)!
+        present(picker, animated: true, completion: nil)
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        picker.dismiss(animated: true, completion: nil)
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        var image = info[UIImagePickerControllerOriginalImage] as! UIImage
+        dismiss(animated:true, completion: nil)
+        if image.imageOrientation != .up {
+            var degrees: CGFloat = 0
+            switch image.imageOrientation {
+                case .down: degrees = 180
+                case .left: degrees = 270
+                case .right: degrees = 90
+                default: break
+            }
+            image = imageRotatedByDegrees(oldImage: image, deg: degrees)
+        }
+        let message = Message(messageImage: UIImagePNGRepresentation(image)!)
+        self.messageArray.append(message)
+        let indexPath = IndexPath.init(item: self.messageArray.count - 1, section: 0)
+        self.collectionView.insertItems(at: [indexPath])
+        
+        self.collectionView.scrollToItem(at: indexPath, at: .bottom, animated: true)
+    }
+    
+    func imageRotatedByDegrees(oldImage: UIImage, deg degrees: CGFloat) -> UIImage {
+        //Calculate the size of the rotated view's containing box for our drawing space
+        let rotatedViewBox: UIView = UIView(frame: CGRect(x: 0, y: 0, width: oldImage.size.width, height: oldImage.size.height))
+        let t: CGAffineTransform = CGAffineTransform(rotationAngle: degrees * CGFloat(M_PI / 180))
+        rotatedViewBox.transform = t
+        let rotatedSize: CGSize = rotatedViewBox.frame.size
+        //Create the bitmap context
+        UIGraphicsBeginImageContext(rotatedSize)
+        let bitmap: CGContext = UIGraphicsGetCurrentContext()!
+        //Move the origin to the middle of the image so we will rotate and scale around the center.
+        bitmap.translateBy(x: rotatedSize.width / 2, y: rotatedSize.height / 2)
+        //Rotate the image context
+        bitmap.rotate(by: (degrees * CGFloat(M_PI / 180)))
+        //Now, draw the rotated/scaled image into the context
+        bitmap.scaleBy(x: 1.0, y: -1.0)
+        if degrees == 180 {
+            bitmap.draw(oldImage.cgImage!, in: CGRect(x: -oldImage.size.width / 2, y: -oldImage.size.height / 2, width: oldImage.size.width, height: oldImage.size.height))
+        } else {
+            bitmap.draw(oldImage.cgImage!, in: CGRect(x: -oldImage.size.width / 2, y: -oldImage.size.height / 2, width: oldImage.size.height, height: oldImage.size.width))
+        }
+        
+        let newImage: UIImage = UIGraphicsGetImageFromCurrentImageContext()!
+        UIGraphicsEndImageContext()
+        return newImage
     }
 }
 

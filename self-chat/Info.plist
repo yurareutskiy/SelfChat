@@ -27,7 +27,7 @@
 	<key>NSCameraUsageDescription</key>
 	<string>Хочу следить за тобой!</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string></string>
+	<string>Хочу знать о тебе всё</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>pfagorasanspro-light.ttf</string>
