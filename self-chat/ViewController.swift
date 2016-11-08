@@ -685,7 +685,7 @@ extension ViewController: CLLocationManagerDelegate {
                 return
             }
             
-            withCallback(snapshot!.image, nil)
+            withCallback(self.pinPhoto(forSnapshot: snapshot!, location: location.coordinate), nil)
         }
     }
     
@@ -706,7 +706,45 @@ extension ViewController: CLLocationManagerDelegate {
         }
         
     }
+    
+    func pinPhoto(forSnapshot snapshot: MKMapSnapshot, location: CLLocationCoordinate2D) -> UIImage {
+        let pin = MKPinAnnotationView.init(annotation: nil, reuseIdentifier: "")
+        let pinImage = pin.image
+        
+        let image = snapshot.image
+        UIGraphicsBeginImageContextWithOptions(image.size, true, image.scale)
+        image.draw(at: CGPoint.zero)
+        
+        let point = snapshot.point(for: location)
+        pinImage?.draw(at: CGPoint(x: point.x, y: point.y - (pinImage?.size.height)!))
+        let finalImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        return finalImage!
+    }
 }
+
+/*
+ UIImage *ATLPinPhotoForSnapshot(MKMapSnapshot *snapshot, CLLocationCoordinate2D location)
+ {
+ // Create a pin image.
+ MKAnnotationView *pin = [[MKPinAnnotationView alloc] initWithAnnotation:nil reuseIdentifier:@""];
+ UIImage *pinImage = pin.image;
+ 
+ // Draw the image.
+ UIImage *image = snapshot.image;
+ UIGraphicsBeginImageContextWithOptions(image.size, YES, image.scale);
+ [image drawAtPoint:CGPointMake(0, 0)];
+ 
+ // Draw the pin.
+ CGPoint point = [snapshot pointForCoordinate:location];
+ [pinImage drawAtPoint:CGPointMake(point.x, point.y - pinImage.size.height)];
+ UIImage *finalImage = UIGraphicsGetImageFromCurrentImageContext();
+ UIGraphicsEndImageContext();
+ 
+ return finalImage;
+ }
+ */
 
 extension ViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
