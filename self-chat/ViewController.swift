@@ -34,6 +34,8 @@ class ViewController: UIViewController, UITextViewDelegate {
             return isCameraViewOpen || isGalleryOpens
         }
     }
+    // CollectionView
+    var maxBubbleWidth: CGFloat = 0
     
     // Camera's view and buttons
     var cameraView: UIView?
@@ -85,6 +87,8 @@ class ViewController: UIViewController, UITextViewDelegate {
     }
 
     override func viewDidAppear(_ animated: Bool) {
+        maxBubbleWidth = view.bounds.width / 2 - 12
+
         // Set tap recognizer for hidding keyboard
         let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(ViewController.didTapOnScreen(_:)))
         contentContainerView.addGestureRecognizer(tapRecognizer)
@@ -120,19 +124,41 @@ class ViewController: UIViewController, UITextViewDelegate {
     // MARK: - UIKeyboardNotifacation
     
     func keyboardWillShow(_ notification: Notification) {
+        
+
+        
         if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
             let offsetHeight = keyboardSize.size.height
-            inputBottomContainerConstraint.constant += offsetHeight - 46
-            UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut, animations: {
-                self.view.layoutIfNeeded()
-            }, completion: nil)
+
+            func liftView(withChecking finished: Bool) {
+                if finished == false {
+                    return
+                }
+                inputBottomContainerConstraint.constant = offsetHeight - 45
+                UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut, animations: {
+                    self.view.layoutIfNeeded()
+                    self.collectionView.layoutIfNeeded()
+                }, completion: nil)
+            }
+            
+            switch true {
+                case isCameraViewOpen:
+                    togglePhotoView(withAnimation: false, complition: liftView)
+                case isGalleryOpens:
+                    toggleGalleryView(withAnimation: false, complition: liftView)
+                default:
+                    liftView(withChecking: true)
+            }
         }
     }
+    
+
     
     func keyboardWillHide(_ notification: Notification) {
         inputBottomContainerConstraint.constant = 0
         UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut, animations: {
             self.view.layoutIfNeeded()
+            self.collectionView.collectionViewLayout.prepare()
         }, completion: nil)
     }
 
@@ -204,7 +230,21 @@ class ViewController: UIViewController, UITextViewDelegate {
         if !done {
             session.startRunning()
         }
-        UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut, animations: {
+        if isGalleryOpens == true {
+            toggleGalleryView(withAnimation: true, complition: { (finished) in
+                if finished == true {
+                    self.togglePhotoView(withAnimation: true, complition: nil)
+                }
+            })
+        } else {
+            togglePhotoView(withAnimation: true, complition: nil)
+        }
+        
+        
+    }
+    
+    func togglePhotoView(withAnimation isAnimate:Bool, complition: ((Bool) -> Void)? = nil) {
+        func toggle() {
             if self.isCameraViewOpen {
                 self.inputBottomContainerConstraint.constant = 0
                 self.cameraView!.frame.origin.y = self.view.frame.size.height
@@ -212,12 +252,23 @@ class ViewController: UIViewController, UITextViewDelegate {
                 self.inputBottomContainerConstraint.constant = self.cameraViewHeight
                 self.cameraView!.frame.origin.y -= self.cameraViewHeight
             }
-            
             self.view.layoutIfNeeded()
-            
-        }, completion: { (finished) in
             self.isCameraViewOpen = !self.isCameraViewOpen
-        })
+        }
+        if isAnimate == true {
+            UIView.animate(withDuration: isAnimate == true ? 0.3 : 0, delay: 0, options: .curveEaseInOut, animations: {
+                toggle()
+            }, completion: { (finished) in
+                if complition != nil {
+                    complition!(finished)
+                }
+            })
+        } else {
+            toggle()
+            if complition != nil {
+                complition!(true)
+            }
+        }
         
     }
     
@@ -243,7 +294,8 @@ class ViewController: UIViewController, UITextViewDelegate {
             
             let galleryButton = UIButton(frame: CGRect(x: 0, y: 90, width: view.frame.width, height: 54))
             galleryButton.setTitle("Выбрать фото из галереи", for: .normal)
-            galleryButton.setTitleColor(UIColor.blue, for: .normal)
+            galleryButton.backgroundColor = UIColor.white
+            galleryButton.setTitleColor(UIColor.init(red: 12/255, green: 133/255, blue: 254/255, alpha: 1) , for: .normal)
             galleryButton.addTarget(self, action: #selector(galleryPickerOpen(_ :)), for: .touchUpInside)
             let topButtonBorder = UIView(frame: galleryButton.frame)
             topButtonBorder.frame.size.height = 0.5
@@ -255,7 +307,21 @@ class ViewController: UIViewController, UITextViewDelegate {
 
             loadPhotos()
         }
-        UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut, animations: {
+        if isCameraViewOpen == true {
+            togglePhotoView(withAnimation: true, complition: { (finished) in
+                if finished == true {
+                    self.toggleGalleryView(withAnimation: true, complition: nil)
+                }
+            })
+        } else {
+            toggleGalleryView(withAnimation: true, complition: nil)
+        }
+        
+
+    }
+
+    func toggleGalleryView(withAnimation isAnimate:Bool, complition: ((Bool) -> Void)? = nil) {
+        func toggle() {
             if self.isGalleryOpens {
                 self.inputBottomContainerConstraint.constant = 0
                 self.galleryView!.frame.origin.y = self.view.frame.size.height
@@ -263,14 +329,26 @@ class ViewController: UIViewController, UITextViewDelegate {
                 self.inputBottomContainerConstraint.constant = self.galleryHeight
                 self.galleryView!.frame.origin.y -= self.galleryHeight
             }
-            
-            self.view.layoutIfNeeded()
-            
-        }, completion: { (finished) in
             self.isGalleryOpens = !self.isGalleryOpens
-        })
-    }
+            self.view.layoutIfNeeded()
+        }
+        if isAnimate == true {
+            UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut, animations: {
+                toggle()
+            }, completion: { (finished) in
+                if complition != nil {
+                    complition!(finished)
+                }
+            })
+        } else {
+            toggle()
+            if complition != nil {
+                complition!(true)
+            }
+        }
+        
 
+    }
     
     func loadPhotos() {
         
@@ -318,6 +396,7 @@ class ViewController: UIViewController, UITextViewDelegate {
             let message = Message(messageImage: dataImage)
             self.messageArray.append(message)
             let indexPath = IndexPath.init(item: self.messageArray.count - 1, section: 0)
+            print(indexPath)
             self.collectionView.insertItems(at: [indexPath])
             self.collectionView.scrollToItem(at: indexPath, at: .bottom, animated: true)
         
@@ -543,6 +622,22 @@ extension ViewController:  AVCaptureVideoDataOutputSampleBufferDelegate, AVCaptu
         settings.isAutoStillImageStabilizationEnabled = true
         //settings.isHighResolutionPhotoEnabled = true
         self.capturePhoto.capturePhoto(with: settings, delegate: self as AVCapturePhotoCaptureDelegate)
+        /*var disolvingView: UIView? = UIView(frame: cameraView!.frame)
+        disolvingView?.backgroundColor = UIColor.black
+        disolvingView?.alpha = 0
+        cameraView?.addSubview(disolvingView!)*/
+        
+        UIView.animate(withDuration: 0.08, delay: 0, options: .curveEaseIn, animations: {
+            self.cameraView?.alpha = 0
+        }, completion: { (finished) in
+            if finished == true {
+                UIView.animate(withDuration: 0.08, delay: 0, options: .curveEaseOut, animations: {
+                    self.cameraView?.alpha = 1
+                }, completion: { (finished) in
+                    //disolvingView?.removeFromSuperview()
+                })
+            }
+        })
     }
     
     func capture(_ captureOutput: AVCapturePhotoOutput, didFinishProcessingPhotoSampleBuffer photoSampleBuffer: CMSampleBuffer?, previewPhotoSampleBuffer: CMSampleBuffer?, resolvedSettings: AVCaptureResolvedPhotoSettings, bracketSettings: AVCaptureBracketedStillImageSettings?, error: Error?) {
@@ -590,8 +685,10 @@ extension ViewController: PHPhotoLibraryChangeObserver {
     }
 }
 
+
 extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource, ChatLayoutDelegate {
     
+// MARK: - UICollectionView
 
     func layoutCollectionView() -> UICollectionViewLayout {
         var layout = collectionView.collectionViewLayout
@@ -609,20 +706,26 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource, 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell: BubbleCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! BubbleCollectionViewCell
         
-
+        cell.bubbleMarginLeftConstraint.constant = maxBubbleWidth + 12
         let message = messageArray[indexPath.row]
         if message.type == .text {
             cell.textLabel.isHidden = false
             cell.textLabel.text = message.text
             cell.imageView.image = nil
         } else {
+            let image = UIImage(data: message.image!)
             cell.textLabel.isHidden = true
-            cell.imageView.contentMode = .scaleAspectFit
-            cell.imageView.frame.size.width = 200
-            cell.imageView.frame.size.height = 200
-            cell.imageView.frame.origin.x = view.frame.width - 208
-            cell.imageView.image = UIImage(data: message.image!)
-            cell.imageView.clipsToBounds = true
+            cell.imageView.image = image
+            cell.imageView.contentMode = .scaleAspectFill
+            var bubbleHeight = image!.size.height
+            var bubbleWidth = image!.size.width
+            if image!.size.width > maxBubbleWidth {
+                bubbleHeight = (bubbleHeight * maxBubbleWidth) / image!.size.width
+                bubbleWidth = maxBubbleWidth
+            }
+            cell.imageView.frame.size.width = bubbleWidth
+            cell.imageView.frame.size.height = bubbleHeight
+            
         }
         
         cell.imageView.layer.cornerRadius = 15
@@ -636,16 +739,17 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource, 
         
         
         let textPadding = CGFloat(4)
-        let textMargin = CGFloat(12)
+        let margin = CGFloat(12)
         let message = messageArray[indexPath.item]
         var contentHeight: CGFloat = 0
-        let maximumWidth = collectionView.bounds.width - 70 - 32
+        let maximumWidth = collectionView.bounds.width - 100 - 32
 
         if message.type == .text {
             let font = UIFont(name: "pfagorasanspro-light", size: 16)!
             let rect = NSString(string: message.text!).boundingRect(with: CGSize(width: maximumWidth, height: CGFloat(MAXFLOAT)), options: .usesLineFragmentOrigin, attributes: [NSFontAttributeName: font], context: nil)
-            contentHeight = rect.height
-        } else if message.type == .image {
+            contentHeight = textPadding * 2 + ceil(rect.height)
+
+        } else {
             let image: UIImage = UIImage(data: message.image!)!
             let heightInPoints = image.size.height
             let heightInPixels = heightInPoints * image.scale
@@ -653,18 +757,15 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource, 
             let widthInPoints = image.size.width
             let widthInPixels = widthInPoints * image.scale
             
-            if widthInPixels <= collectionView.bounds.width / 2 {
+            if widthInPixels <= maxBubbleWidth {
                 contentHeight = heightInPixels
             } else {
-                contentHeight = ((collectionView.bounds.width / 2) / widthInPixels) * heightInPixels
+                contentHeight = (maxBubbleWidth * heightInPixels) / widthInPixels
             }
-        } else if message.type == .location {
-            contentHeight = 200
         }
         
-        let height = textMargin * 2 + textPadding * 2 + ceil(contentHeight)
         
-        return height
+        return contentHeight + (2 * margin)
     }
 
 }

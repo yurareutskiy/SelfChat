@@ -30,7 +30,7 @@
                                 <rect key="frame" x="0.0" y="577" width="375" height="90"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LcD-Up-BPV" userLabel="middle separator">
-                                        <rect key="frame" x="12" y="47.5" width="351" height="1"/>
+                                        <rect key="frame" x="12" y="48" width="351" height="1"/>
                                         <color key="backgroundColor" red="0.69792824983596802" green="0.69804728031158447" blue="0.69791257381439209" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="1" id="Iw3-qO-k89"/>
@@ -74,7 +74,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="p3e-Sa-JMk">
-                                        <rect key="frame" x="321" y="12" width="46" height="30"/>
+                                        <rect key="frame" x="321" y="9" width="46" height="30"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="30" id="UEG-5v-V82"/>
                                             <constraint firstAttribute="width" constant="46" id="b41-jc-JGf"/>
@@ -115,7 +115,7 @@
                                     <constraint firstAttribute="trailing" secondItem="vMI-u9-jLT" secondAttribute="trailing" id="eJs-9q-oEa"/>
                                     <constraint firstAttribute="trailing" secondItem="LcD-Up-BPV" secondAttribute="trailing" constant="12" id="g30-zF-VnT"/>
                                     <constraint firstAttribute="bottom" secondItem="UtV-kD-Cs8" secondAttribute="bottom" id="laG-eK-Xal"/>
-                                    <constraint firstItem="LcD-Up-BPV" firstAttribute="top" secondItem="p3e-Sa-JMk" secondAttribute="bottom" constant="5.5" id="o85-yQ-GsS"/>
+                                    <constraint firstItem="LcD-Up-BPV" firstAttribute="top" secondItem="p3e-Sa-JMk" secondAttribute="bottom" constant="9" id="o85-yQ-GsS"/>
                                     <constraint firstAttribute="bottom" secondItem="9t7-dX-xlg" secondAttribute="bottom" id="qPX-8s-ZDk"/>
                                     <constraint firstAttribute="bottom" secondItem="LcD-Up-BPV" secondAttribute="bottom" constant="41.5" id="r8b-8u-Haf"/>
                                     <constraint firstItem="9t7-dX-xlg" firstAttribute="leading" secondItem="gF2-6W-SzP" secondAttribute="trailing" id="wjE-tu-xYC"/>
@@ -160,11 +160,12 @@
                                                 <constraints>
                                                     <constraint firstAttribute="trailing" secondItem="k7o-J4-LXc" secondAttribute="trailing" constant="8" id="46V-ex-Ml1"/>
                                                     <constraint firstItem="k7o-J4-LXc" firstAttribute="top" secondItem="Lrn-eP-QRC" secondAttribute="top" constant="4" id="LYc-i3-Xw5"/>
-                                                    <constraint firstItem="k7o-J4-LXc" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Lrn-eP-QRC" secondAttribute="leading" constant="70" id="ojT-R3-0Yq"/>
+                                                    <constraint firstItem="k7o-J4-LXc" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Lrn-eP-QRC" secondAttribute="leading" constant="100" id="ojT-R3-0Yq"/>
                                                     <constraint firstAttribute="bottom" secondItem="k7o-J4-LXc" secondAttribute="bottom" constant="4" id="v6C-YV-SSM"/>
                                                 </constraints>
                                                 <size key="customSize" width="376" height="50"/>
                                                 <connections>
+                                                    <outlet property="bubbleMarginLeftConstraint" destination="ojT-R3-0Yq" id="Awe-fh-pch"/>
                                                     <outlet property="imageView" destination="k7o-J4-LXc" id="gqT-W6-Kac"/>
                                                     <outlet property="textLabel" destination="n58-OV-12O" id="qYf-N4-2QK"/>
                                                 </connections>
@@ -181,7 +182,7 @@
                                 </constraints>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="e9q-5u-PWd" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="2pi-Gd-BDI"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="CC6-8a-doc" secondAttribute="bottom" id="4Ih-S7-yly"/>

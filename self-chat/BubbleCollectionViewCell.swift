@@ -12,6 +12,7 @@ class BubbleCollectionViewCell: UICollectionViewCell {
 
     @IBOutlet weak var textLabel: UILabel!
     @IBOutlet weak var imageView: UIImageView!
+    @IBOutlet weak var bubbleMarginLeftConstraint: NSLayoutConstraint!
     
     override func prepareForReuse() {
     }
