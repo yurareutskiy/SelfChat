@@ -76,6 +76,32 @@ class ViewController: UIViewController, UITextViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        ServerTask().loadAllMessages { (result) in
+            if result != nil, let data = result?["result"] as? [Dictionary<String, Any>] {
+                for var item in data {
+                    var message: Message
+                    switch item["type"] as! String {
+                        case "text":
+                            message = Message(messageText: item["text"] as! String)
+                            message.type = .text
+                            break
+                        case "image":
+                            message = Message(messageImage: Data.init(base64Encoded: item["image"] as! String)!)
+                            message.type = .image
+                            break
+                        case "location":
+                            message = Message(messageImage: Data.init(base64Encoded: item["image"] as! String)!)
+                            message.type = .location
+                            break
+                    default: break
+                    }
+                    self.messageArray.append(message)
+                    
+                    
+                }
+            }
+        }
+        
         NotificationCenter.default.addObserver(self, selector: #selector(ViewController.keyboardWillShow(_:)), name: .UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(ViewController.keyboardWillHide(_:)), name: .UIKeyboardWillHide, object: nil)
 
