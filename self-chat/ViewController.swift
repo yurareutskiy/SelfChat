@@ -93,7 +93,9 @@ class ViewController: UIViewController, UITextViewDelegate {
                             message = Message(messageImage: Data.init(base64Encoded: item["image"] as! String)!)
                             message.type = .location
                             break
-                    default: break
+                        default:
+                            print("invalid type")
+                            continue
                     }
                     self.messageArray.append(message)
                     
