@@ -77,7 +77,7 @@ class ViewController: UIViewController, UITextViewDelegate {
         super.viewDidLoad()
         
 
-
+        NotificationCenter.default.addObserver(self, selector: #selector(rotated(_:)), name: .UIDeviceOrientationDidChange, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(ViewController.keyboardWillShow(_:)), name: .UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(ViewController.keyboardWillHide(_:)), name: .UIKeyboardWillHide, object: nil)
 
@@ -154,6 +154,19 @@ class ViewController: UIViewController, UITextViewDelegate {
     
     func didTapOnScreen(_ sender: Any) {
         self.view.endEditing(true)
+        switch true {
+            case isCameraViewOpen:
+                togglePhotoView(withAnimation: true, complition: nil)
+            case isGalleryOpens:
+                toggleGalleryView(withAnimation: true, complition: nil)
+            default: break;
+        }
+    }
+    
+    func rotated(_ notification: Notification) {
+        collectionView.collectionViewLayout.prepare()
+        view.layoutIfNeeded()
+        print(view.frame.width)
     }
     
     // MARK: - UIKeyboardNotifacation
@@ -172,8 +185,10 @@ class ViewController: UIViewController, UITextViewDelegate {
                 inputBottomContainerConstraint.constant = offsetHeight - 45
                 UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut, animations: {
                     self.view.layoutIfNeeded()
+                    self.collectionView.collectionViewLayout.prepare()
+                }, completion: { isFinished in
                     self.collectionView.layoutIfNeeded()
-                }, completion: nil)
+                })
             }
             
             switch true {
@@ -326,6 +341,7 @@ class ViewController: UIViewController, UITextViewDelegate {
                 self.cameraView!.frame.origin.y -= self.cameraViewHeight
             }
             self.view.layoutIfNeeded()
+            self.collectionView.collectionViewLayout.prepare()
             self.isCameraViewOpen = !self.isCameraViewOpen
         }
         if isAnimate == true {
@@ -405,6 +421,7 @@ class ViewController: UIViewController, UITextViewDelegate {
             }
             self.isGalleryOpens = !self.isGalleryOpens
             self.view.layoutIfNeeded()
+            self.collectionView.collectionViewLayout.prepare()
         }
         if isAnimate == true {
             UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut, animations: {

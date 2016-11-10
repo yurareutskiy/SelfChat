@@ -35,6 +35,7 @@ class ChatLayout: UICollectionViewLayout {
 
     override func prepare() {
         
+        cache.removeAll()
         let numberOfSections = collectionView?.numberOfSections
         if numberOfSections == 0 {
             return
@@ -96,6 +97,10 @@ class ChatLayout: UICollectionViewLayout {
             }
         }
         return layoutAttributes
+    }
+    
+    override func layoutAttributesForItem(at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
+        return cache[indexPath.item]
     }
     
 }

@@ -135,7 +135,7 @@
                                         <collectionViewLayout key="collectionViewLayout" id="xax-6m-foA" customClass="ChatLayout" customModule="self_chat" customModuleProvider="target"/>
                                         <cells>
                                             <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="cell" id="Lrn-eP-QRC" customClass="BubbleCollectionViewCell" customModule="self_chat" customModuleProvider="target">
-                                                <rect key="frame" x="-0.5" y="0.0" width="376" height="50"/>
+                                                <rect key="frame" x="-1" y="0.0" width="376" height="50"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                                     <rect key="frame" x="0.0" y="0.0" width="376" height="50"/>
@@ -146,7 +146,7 @@
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="n58-OV-12O">
                                                                     <rect key="frame" x="12" y="12" width="36" height="16"/>
-                                                                    <fontDescription key="fontDescription" name="PFAgoraSansPro-Light" family="PF Agora Sans Pro" pointSize="16"/>
+                                                                    <fontDescription key="fontDescription" name="PFAgoraSansPro-Light" family="PF Agora Sans Pro" pointSize="18"/>
                                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
