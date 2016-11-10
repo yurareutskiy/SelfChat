@@ -12,6 +12,9 @@
         <array key="pfagorasanspro-light.ttf">
             <string>PFAgoraSansPro-Light</string>
         </array>
+        <array key="pfagorasanspro-reg.ttf">
+            <string>PFAgoraSansPro-Regular</string>
+        </array>
     </customFonts>
     <scenes>
         <!--View Controller-->
@@ -79,6 +82,7 @@
                                             <constraint firstAttribute="height" constant="30" id="UEG-5v-V82"/>
                                             <constraint firstAttribute="width" constant="46" id="b41-jc-JGf"/>
                                         </constraints>
+                                        <fontDescription key="fontDescription" name="PFAgoraSansPro-Regular" family="PF Agora Sans Pro" pointSize="16"/>
                                         <state key="normal" title="Отпр"/>
                                         <state key="disabled">
                                             <color key="titleColor" red="0.68224126100540161" green="0.68235784769058228" blue="0.68222588300704956" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
@@ -90,7 +94,7 @@
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="C9y-Ct-gfb">
                                         <rect key="frame" x="12" y="9" width="301" height="33"/>
                                         <color key="backgroundColor" red="0.98028594255447388" green="0.98045343160629272" blue="0.98027521371841431" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <fontDescription key="fontDescription" name="PFAgoraSansPro-Light" family="PF Agora Sans Pro" pointSize="16"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                     </textView>
                                 </subviews>
@@ -131,7 +135,7 @@
                                         <collectionViewLayout key="collectionViewLayout" id="xax-6m-foA" customClass="ChatLayout" customModule="self_chat" customModuleProvider="target"/>
                                         <cells>
                                             <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="cell" id="Lrn-eP-QRC" customClass="BubbleCollectionViewCell" customModule="self_chat" customModuleProvider="target">
-                                                <rect key="frame" x="-1" y="0.0" width="376" height="50"/>
+                                                <rect key="frame" x="-0.5" y="0.0" width="376" height="50"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                                     <rect key="frame" x="0.0" y="0.0" width="376" height="50"/>
@@ -160,7 +164,7 @@
                                                 <constraints>
                                                     <constraint firstAttribute="trailing" secondItem="k7o-J4-LXc" secondAttribute="trailing" constant="8" id="46V-ex-Ml1"/>
                                                     <constraint firstItem="k7o-J4-LXc" firstAttribute="top" secondItem="Lrn-eP-QRC" secondAttribute="top" constant="4" id="LYc-i3-Xw5"/>
-                                                    <constraint firstItem="k7o-J4-LXc" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Lrn-eP-QRC" secondAttribute="leading" constant="100" id="ojT-R3-0Yq"/>
+                                                    <constraint firstItem="k7o-J4-LXc" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Lrn-eP-QRC" secondAttribute="leading" constant="70" id="ojT-R3-0Yq"/>
                                                     <constraint firstAttribute="bottom" secondItem="k7o-J4-LXc" secondAttribute="bottom" constant="4" id="v6C-YV-SSM"/>
                                                 </constraints>
                                                 <size key="customSize" width="376" height="50"/>

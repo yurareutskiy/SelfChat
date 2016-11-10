@@ -87,7 +87,7 @@ class ViewController: UIViewController, UITextViewDelegate {
     }
 
     override func viewDidAppear(_ animated: Bool) {
-        maxBubbleWidth = view.bounds.width / 2 - 12
+        maxBubbleWidth = view.bounds.width - 70 - 12
 
         // Set tap recognizer for hidding keyboard
         let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(ViewController.didTapOnScreen(_:)))
@@ -165,11 +165,18 @@ class ViewController: UIViewController, UITextViewDelegate {
     // MARK: - UITextViewDelegate
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        let targetString = (textView.text as NSString).replacingCharacters(in: range, with: text)
         if range.location == 0 && text != "" {
             sendButton.isEnabled = true
         } else if range.location == 0 && text == "" {
             sendButton.isEnabled = false
         }
+        if targetString.replacingOccurrences(of: " ", with: "") != "" {
+            sendButton.isEnabled = true
+        } else if targetString.replacingOccurrences(of: " ", with: "") == "" {
+            sendButton.isEnabled = false
+        }
+
         
         return true
     }
@@ -296,6 +303,7 @@ class ViewController: UIViewController, UITextViewDelegate {
             galleryButton.setTitle("Выбрать фото из галереи", for: .normal)
             galleryButton.backgroundColor = UIColor.white
             galleryButton.setTitleColor(UIColor.init(red: 12/255, green: 133/255, blue: 254/255, alpha: 1) , for: .normal)
+            galleryButton.titleLabel?.font = UIFont(name: "pfagorasanspro-light", size: 18)
             galleryButton.addTarget(self, action: #selector(galleryPickerOpen(_ :)), for: .touchUpInside)
             let topButtonBorder = UIView(frame: galleryButton.frame)
             topButtonBorder.frame.size.height = 0.5
@@ -336,12 +344,18 @@ class ViewController: UIViewController, UITextViewDelegate {
             UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut, animations: {
                 toggle()
             }, completion: { (finished) in
+                if self.isGalleryOpens == false {
+                    self.scrollPhotosView = nil
+                }
                 if complition != nil {
                     complition!(finished)
                 }
             })
         } else {
             toggle()
+            if isGalleryOpens == false {
+                scrollPhotosView = nil
+            }
             if complition != nil {
                 complition!(true)
             }
@@ -485,6 +499,7 @@ extension ViewController:  AVCaptureVideoDataOutputSampleBufferDelegate, AVCaptu
         takeShotButton = UIButton(frame: CGRect(x: (view.frame.width / 2) - (widthTakingButton / 2), y: cameraView!.frame.height - (20 + widthTakingButton), width: widthTakingButton, height: widthTakingButton))
         takeShotButton?.addTarget(self, action: #selector(takeCapture(_ :)), for: .touchUpInside)
         takeShotButton?.setTitle("Отпр.", for: .normal)
+        takeShotButton?.titleLabel?.font = UIFont(name: "pfagorasanspro-light", size: 15)
         takeShotButton?.setTitleColor(UIColor.white, for: .normal)
         takeShotButton?.layer.borderColor = UIColor.white.cgColor
         takeShotButton?.layer.borderWidth = 2
@@ -706,7 +721,6 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource, 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell: BubbleCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! BubbleCollectionViewCell
         
-        cell.bubbleMarginLeftConstraint.constant = maxBubbleWidth + 12
         let message = messageArray[indexPath.row]
         if message.type == .text {
             cell.textLabel.isHidden = false
@@ -728,7 +742,7 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource, 
             
         }
         
-        cell.imageView.layer.cornerRadius = 15
+        cell.imageView.layer.cornerRadius = 20
         cell.imageView.clipsToBounds = true
         
         return cell

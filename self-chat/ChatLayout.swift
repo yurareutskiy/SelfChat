@@ -73,6 +73,11 @@ class ChatLayout: UICollectionViewLayout {
             let inset = collectionView!.bounds.height - contentHeight
             collectionView?.contentInset = UIEdgeInsetsMake(inset, 0, 0, 0)
         }
+        let elementsAmount = collectionView!.numberOfItems(inSection: 0)
+        if elementsAmount > 0 {
+            let indexPath = IndexPath.init(item: elementsAmount - 1, section: 0)
+            collectionView!.scrollToItem(at: indexPath, at: .bottom, animated: true)
+        }
         
     }
     
