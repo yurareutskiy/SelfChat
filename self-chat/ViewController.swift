@@ -76,34 +76,8 @@ class ViewController: UIViewController, UITextViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        ServerTask().loadAllMessages { (result) in
-            if result != nil, let data = result?["result"] as? [Dictionary<String, Any>] {
-                for var item in data {
-                    var message: Message
-                    switch item["type"] as! String {
-                        case "text":
-                            message = Message(messageText: item["text"] as! String)
-                            message.type = .text
-                            break
-                        case "image":
-                            message = Message(messageImage: Data.init(base64Encoded: item["image"] as! String)!)
-                            message.type = .image
-                            break
-                        case "location":
-                            message = Message(messageImage: Data.init(base64Encoded: item["image"] as! String)!)
-                            message.type = .location
-                            break
-                        default:
-                            print("invalid type")
-                            continue
-                    }
-                    self.messageArray.append(message)
-                    
-                    
-                }
-            }
-        }
-        
+
+
         NotificationCenter.default.addObserver(self, selector: #selector(ViewController.keyboardWillShow(_:)), name: .UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(ViewController.keyboardWillHide(_:)), name: .UIKeyboardWillHide, object: nil)
 
@@ -111,6 +85,39 @@ class ViewController: UIViewController, UITextViewDelegate {
         collectionView.dataSource = self
         if let layout = collectionView?.collectionViewLayout as? ChatLayout {
             layout.delegate = self
+        }
+        
+        ServerTask().loadAllMessages { (result) in
+            if result == nil {
+                return
+            }
+            self.messageArray.removeAll()
+            if let data = result?["result"] as? [Dictionary<String, Any>] {
+                for var item in data {
+                    var message: Message
+                    switch item["type"] as! String {
+                    case "text":
+                        message = Message(messageText: item["text"] as! String)
+                        message.type = .text
+                        break
+                    case "image":
+                        message = Message(urlImage: item["image"] as! String)
+                        break
+                    case "location":
+                        message = Message(urlImage: item["image"] as! String)
+                        message.type = .location
+                        break
+                    default:
+                        print("invalid type")
+                        continue
+                    }
+                    self.messageArray.append(message)
+                }
+                DispatchQueue.main.async(execute: {
+                    self.collectionView.reloadData()
+ 
+                })
+            }
         }
     }
 
@@ -240,6 +247,38 @@ class ViewController: UIViewController, UITextViewDelegate {
         view.layoutIfNeeded()
     }
     
+    func sendToServer(_ message: Message) {
+        messageArray.append(message)
+        if messageArray.count == 1 {
+            collectionView.reloadData()
+        } else {
+            let indexPath = IndexPath.init(item: messageArray.count - 1, section: 0)
+            self.collectionView.insertItems(at: [indexPath])
+        }
+ 
+        do {
+            let json = try JSONSerialization.data(withJSONObject: message.serialize(), options: JSONSerialization.WritingOptions.prettyPrinted)
+            ServerTask().sendMessage(stringData: json, callback: { (isSend, resultId) in
+                if isSend {
+                    print("message is send")
+                    if message.type != .text {
+                        ServerTask().sendPhoto(data: message.image!, messageId: resultId!, callback: { (isFinished) in
+                            if isFinished {
+                                print("image was upload")
+                            }
+                        })
+                    }
+                    
+                } else {
+                    print("message sending is failure")
+                }
+            })
+        } catch {
+            print("deserialize is failure")
+        }
+        
+    }
+    
     // MARK: - Outlet Actions
     
     @IBAction func sendMessageAction(_ sender: Any) {
@@ -247,9 +286,8 @@ class ViewController: UIViewController, UITextViewDelegate {
         let message = Message(messageText: inputTextView.text)
         inputTextView.text = ""
         textViewDidChange(inputTextView)
-        messageArray.append(message)
-        collectionView.insertItems(at: [NSIndexPath.init(item: messageArray.count - 1, section: 0) as IndexPath])
-        collectionView.scrollToItem(at: IndexPath.init(item: self.messageArray.count - 1, section: 0), at: .bottom, animated: true)
+        sendButton.isEnabled = false
+        sendToServer(message)
     }
     
     @IBAction func photoAction(_ sender: Any) {
@@ -436,11 +474,7 @@ class ViewController: UIViewController, UITextViewDelegate {
         imageManager.requestImage(for: asset, targetSize: PHImageManagerMaximumSize, contentMode: .default, options: nil, resultHandler: { (image, _) in
             let dataImage = UIImageJPEGRepresentation(image!, 1)!
             let message = Message(messageImage: dataImage)
-            self.messageArray.append(message)
-            let indexPath = IndexPath.init(item: self.messageArray.count - 1, section: 0)
-            print(indexPath)
-            self.collectionView.insertItems(at: [indexPath])
-            self.collectionView.scrollToItem(at: indexPath, at: .bottom, animated: true)
+            self.sendToServer(message)
         
         })
     }
@@ -694,8 +728,7 @@ extension ViewController:  AVCaptureVideoDataOutputSampleBufferDelegate, AVCaptu
             let dataImage = AVCapturePhotoOutput.jpegPhotoDataRepresentation(forJPEGSampleBuffer: sampleBuffer, previewPhotoSampleBuffer: previewBuffer)
             let image = UIImage(data: dataImage!)
             let message = Message(messageImage: dataImage!)
-            messageArray.append(message)
-            collectionView.reloadData()
+            sendToServer(message)
             UIImageWriteToSavedPhotosAlbum(image!, nil, nil, nil)
             
         } else {
@@ -743,7 +776,6 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource, 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return messageArray.count
     }
-    
     
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -841,10 +873,7 @@ extension ViewController: CLLocationManagerDelegate {
             takeSnapshot(byLocation: location!, withCallback: { (image, error) in
                 var message = Message(messageImage: UIImagePNGRepresentation(image!)!)
                 message.type = .location
-                self.messageArray.append(message)
-                self.collectionView.insertItems(at: [NSIndexPath.init(item: self.messageArray.count - 1, section: 0) as IndexPath])
-                
-                self.collectionView.scrollToItem(at: IndexPath.init(item: 0, section: 0), at: .bottom, animated: true)
+                self.sendToServer(message)
             })
         }
         
@@ -917,11 +946,7 @@ extension ViewController: UIImagePickerControllerDelegate, UINavigationControlle
             image = imageRotatedByDegrees(oldImage: image, deg: degrees)
         }
         let message = Message(messageImage: UIImagePNGRepresentation(image)!)
-        self.messageArray.append(message)
-        let indexPath = IndexPath.init(item: self.messageArray.count - 1, section: 0)
-        self.collectionView.insertItems(at: [indexPath])
-        
-        self.collectionView.scrollToItem(at: indexPath, at: .bottom, animated: true)
+        sendToServer(message)
     }
     
     func imageRotatedByDegrees(oldImage: UIImage, deg degrees: CGFloat) -> UIImage {

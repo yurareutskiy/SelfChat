@@ -35,6 +35,10 @@ class ChatLayout: UICollectionViewLayout {
 
     override func prepare() {
         
+        let numberOfSections = collectionView?.numberOfSections
+        if numberOfSections == 0 {
+            return
+        }
         let columnWidth = contentWidth / CGFloat(numberOfColumns)
         var xOffset = [CGFloat]()
         for column in 0 ..< numberOfColumns {
@@ -42,7 +46,6 @@ class ChatLayout: UICollectionViewLayout {
         }
         var column = 0
         var yOffset = [CGFloat](repeating: 0, count: numberOfColumns)
-        
     
         for item in 0 ..< collectionView!.numberOfItems(inSection: 0) {
             
@@ -72,11 +75,10 @@ class ChatLayout: UICollectionViewLayout {
         if contentHeight < collectionView!.bounds.height {
             let inset = collectionView!.bounds.height - contentHeight
             collectionView?.contentInset = UIEdgeInsetsMake(inset, 0, 0, 0)
-        }
-        let elementsAmount = collectionView!.numberOfItems(inSection: 0)
-        if elementsAmount > 0 {
-            let indexPath = IndexPath.init(item: elementsAmount - 1, section: 0)
-            collectionView!.scrollToItem(at: indexPath, at: .bottom, animated: true)
+        } else {
+            collectionView?.contentInset = UIEdgeInsetsMake(0, 0, 0, 0)
+            let offsetY = contentHeight - collectionView!.bounds.height
+            collectionView?.contentOffset = CGPoint(x: 0, y: offsetY)
         }
         
     }
@@ -95,4 +97,5 @@ class ChatLayout: UICollectionViewLayout {
         }
         return layoutAttributes
     }
+    
 }
