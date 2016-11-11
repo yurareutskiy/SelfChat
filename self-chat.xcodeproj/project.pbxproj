@@ -8,6 +8,16 @@
 
 /* Begin PBXBuildFile section */
 		252D30C61DD47BE00020A693 /* Server.swift in Sources */ = {isa = PBXBuildFile; fileRef = 252D30C51DD47BE00020A693 /* Server.swift */; };
+		252F67BE1DD53AD700ADCCDE /* IntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 252F67BD1DD53AD700ADCCDE /* IntentHandler.swift */; };
+		252F67C71DD53AD700ADCCDE /* IntentsUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 252F67C61DD53AD700ADCCDE /* IntentsUI.framework */; };
+		252F67CA1DD53AD700ADCCDE /* IntentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 252F67C91DD53AD700ADCCDE /* IntentViewController.swift */; };
+		252F67CD1DD53AD700ADCCDE /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 252F67CB1DD53AD700ADCCDE /* MainInterface.storyboard */; };
+		252F67D11DD53AD700ADCCDE /* SelfChatSiriExtensionUI.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 252F67C41DD53AD700ADCCDE /* SelfChatSiriExtensionUI.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		252F67D41DD53AD700ADCCDE /* SelfChatSiriExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 252F67BB1DD53AD700ADCCDE /* SelfChatSiriExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		252F67E21DD5452400ADCCDE /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 252F67E11DD5452400ADCCDE /* NotificationCenter.framework */; };
+		252F67E51DD5452400ADCCDE /* TodayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 252F67E41DD5452400ADCCDE /* TodayViewController.swift */; };
+		252F67E81DD5452400ADCCDE /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 252F67E61DD5452400ADCCDE /* MainInterface.storyboard */; };
+		252F67EC1DD5452400ADCCDE /* Self Chat Today.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 252F67E01DD5452400ADCCDE /* Self Chat Today.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		25D1DBA11DCE7DBC00B388A9 /* BubbleCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25D1DBA01DCE7DBC00B388A9 /* BubbleCollectionViewCell.swift */; };
 		25D1DBA31DCE838200B388A9 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25D1DBA21DCE838200B388A9 /* Message.swift */; };
 		25D1DBA61DCE87DF00B388A9 /* pfagorasanspro-light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 25D1DBA41DCE87DF00B388A9 /* pfagorasanspro-light.ttf */; };
@@ -24,6 +34,27 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		252F67CF1DD53AD700ADCCDE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 25E417791DCB9EBC00D1E99A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 252F67C31DD53AD700ADCCDE;
+			remoteInfo = SelfChatSiriExtensionUI;
+		};
+		252F67D21DD53AD700ADCCDE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 25E417791DCB9EBC00D1E99A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 252F67BA1DD53AD700ADCCDE;
+			remoteInfo = SelfChatSiriExtension;
+		};
+		252F67EA1DD5452400ADCCDE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 25E417791DCB9EBC00D1E99A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 252F67DF1DD5452400ADCCDE;
+			remoteInfo = "Self Chat Today";
+		};
 		25E417991DCB9EBD00D1E99A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 25E417791DCB9EBC00D1E99A /* Project object */;
@@ -40,8 +71,37 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		252F67DB1DD53AD700ADCCDE /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				252F67EC1DD5452400ADCCDE /* Self Chat Today.appex in Embed App Extensions */,
+				252F67D11DD53AD700ADCCDE /* SelfChatSiriExtensionUI.appex in Embed App Extensions */,
+				252F67D41DD53AD700ADCCDE /* SelfChatSiriExtension.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		252D30C51DD47BE00020A693 /* Server.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Server.swift; sourceTree = "<group>"; };
+		252F67BB1DD53AD700ADCCDE /* SelfChatSiriExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = SelfChatSiriExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		252F67BD1DD53AD700ADCCDE /* IntentHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntentHandler.swift; sourceTree = "<group>"; };
+		252F67BF1DD53AD700ADCCDE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		252F67C41DD53AD700ADCCDE /* SelfChatSiriExtensionUI.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = SelfChatSiriExtensionUI.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		252F67C61DD53AD700ADCCDE /* IntentsUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IntentsUI.framework; path = System/Library/Frameworks/IntentsUI.framework; sourceTree = SDKROOT; };
+		252F67C91DD53AD700ADCCDE /* IntentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntentViewController.swift; sourceTree = "<group>"; };
+		252F67CC1DD53AD700ADCCDE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
+		252F67CE1DD53AD700ADCCDE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		252F67E01DD5452400ADCCDE /* Self Chat Today.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Self Chat Today.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		252F67E11DD5452400ADCCDE /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
+		252F67E41DD5452400ADCCDE /* TodayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewController.swift; sourceTree = "<group>"; };
+		252F67E71DD5452400ADCCDE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
+		252F67E91DD5452400ADCCDE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		25D1DBA01DCE7DBC00B388A9 /* BubbleCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BubbleCollectionViewCell.swift; sourceTree = "<group>"; };
 		25D1DBA21DCE838200B388A9 /* Message.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		25D1DBA41DCE87DF00B388A9 /* pfagorasanspro-light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "pfagorasanspro-light.ttf"; path = "../../../Downloads/pfagorasanspro-light.ttf"; sourceTree = "<group>"; };
@@ -64,6 +124,29 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		252F67B81DD53AD700ADCCDE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		252F67C11DD53AD700ADCCDE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				252F67C71DD53AD700ADCCDE /* IntentsUI.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		252F67DD1DD5452400ADCCDE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				252F67E21DD5452400ADCCDE /* NotificationCenter.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		25E4177E1DCB9EBC00D1E99A /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -88,12 +171,54 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		252F67BC1DD53AD700ADCCDE /* SelfChatSiriExtension */ = {
+			isa = PBXGroup;
+			children = (
+				252F67BD1DD53AD700ADCCDE /* IntentHandler.swift */,
+				252F67BF1DD53AD700ADCCDE /* Info.plist */,
+			);
+			path = SelfChatSiriExtension;
+			sourceTree = "<group>";
+		};
+		252F67C51DD53AD700ADCCDE /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				252F67C61DD53AD700ADCCDE /* IntentsUI.framework */,
+				252F67E11DD5452400ADCCDE /* NotificationCenter.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		252F67C81DD53AD700ADCCDE /* SelfChatSiriExtensionUI */ = {
+			isa = PBXGroup;
+			children = (
+				252F67C91DD53AD700ADCCDE /* IntentViewController.swift */,
+				252F67CB1DD53AD700ADCCDE /* MainInterface.storyboard */,
+				252F67CE1DD53AD700ADCCDE /* Info.plist */,
+			);
+			path = SelfChatSiriExtensionUI;
+			sourceTree = "<group>";
+		};
+		252F67E31DD5452400ADCCDE /* Self Chat Today */ = {
+			isa = PBXGroup;
+			children = (
+				252F67E41DD5452400ADCCDE /* TodayViewController.swift */,
+				252F67E61DD5452400ADCCDE /* MainInterface.storyboard */,
+				252F67E91DD5452400ADCCDE /* Info.plist */,
+			);
+			path = "Self Chat Today";
+			sourceTree = "<group>";
+		};
 		25E417781DCB9EBC00D1E99A = {
 			isa = PBXGroup;
 			children = (
 				25E417831DCB9EBD00D1E99A /* self-chat */,
 				25E4179B1DCB9EBD00D1E99A /* self-chatTests */,
 				25E417A61DCB9EBD00D1E99A /* self-chatUITests */,
+				252F67BC1DD53AD700ADCCDE /* SelfChatSiriExtension */,
+				252F67C81DD53AD700ADCCDE /* SelfChatSiriExtensionUI */,
+				252F67E31DD5452400ADCCDE /* Self Chat Today */,
+				252F67C51DD53AD700ADCCDE /* Frameworks */,
 				25E417821DCB9EBD00D1E99A /* Products */,
 			);
 			sourceTree = "<group>";
@@ -104,6 +229,9 @@
 				25E417811DCB9EBD00D1E99A /* self-chat.app */,
 				25E417981DCB9EBD00D1E99A /* self-chatTests.xctest */,
 				25E417A31DCB9EBD00D1E99A /* self-chatUITests.xctest */,
+				252F67BB1DD53AD700ADCCDE /* SelfChatSiriExtension.appex */,
+				252F67C41DD53AD700ADCCDE /* SelfChatSiriExtensionUI.appex */,
+				252F67E01DD5452400ADCCDE /* Self Chat Today.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -149,6 +277,57 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		252F67BA1DD53AD700ADCCDE /* SelfChatSiriExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 252F67D81DD53AD700ADCCDE /* Build configuration list for PBXNativeTarget "SelfChatSiriExtension" */;
+			buildPhases = (
+				252F67B71DD53AD700ADCCDE /* Sources */,
+				252F67B81DD53AD700ADCCDE /* Frameworks */,
+				252F67B91DD53AD700ADCCDE /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SelfChatSiriExtension;
+			productName = SelfChatSiriExtension;
+			productReference = 252F67BB1DD53AD700ADCCDE /* SelfChatSiriExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+		252F67C31DD53AD700ADCCDE /* SelfChatSiriExtensionUI */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 252F67D51DD53AD700ADCCDE /* Build configuration list for PBXNativeTarget "SelfChatSiriExtensionUI" */;
+			buildPhases = (
+				252F67C01DD53AD700ADCCDE /* Sources */,
+				252F67C11DD53AD700ADCCDE /* Frameworks */,
+				252F67C21DD53AD700ADCCDE /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SelfChatSiriExtensionUI;
+			productName = SelfChatSiriExtensionUI;
+			productReference = 252F67C41DD53AD700ADCCDE /* SelfChatSiriExtensionUI.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+		252F67DF1DD5452400ADCCDE /* Self Chat Today */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 252F67ED1DD5452400ADCCDE /* Build configuration list for PBXNativeTarget "Self Chat Today" */;
+			buildPhases = (
+				252F67DC1DD5452400ADCCDE /* Sources */,
+				252F67DD1DD5452400ADCCDE /* Frameworks */,
+				252F67DE1DD5452400ADCCDE /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Self Chat Today";
+			productName = "Self Chat Today";
+			productReference = 252F67E01DD5452400ADCCDE /* Self Chat Today.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		25E417801DCB9EBC00D1E99A /* self-chat */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 25E417AC1DCB9EBD00D1E99A /* Build configuration list for PBXNativeTarget "self-chat" */;
@@ -157,10 +336,14 @@
 				25E4177E1DCB9EBC00D1E99A /* Frameworks */,
 				25E4177F1DCB9EBC00D1E99A /* Resources */,
 				25D1DBAA1DCF487300B388A9 /* Reveal */,
+				252F67DB1DD53AD700ADCCDE /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				252F67D01DD53AD700ADCCDE /* PBXTargetDependency */,
+				252F67D31DD53AD700ADCCDE /* PBXTargetDependency */,
+				252F67EB1DD5452400ADCCDE /* PBXTargetDependency */,
 			);
 			name = "self-chat";
 			productName = "self-chat";
@@ -209,13 +392,28 @@
 		25E417791DCB9EBC00D1E99A /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0800;
+				LastSwiftUpdateCheck = 0810;
 				LastUpgradeCheck = 0800;
 				ORGANIZATIONNAME = "Yura Reutskiy";
 				TargetAttributes = {
+					252F67BA1DD53AD700ADCCDE = {
+						CreatedOnToolsVersion = 8.1;
+						DevelopmentTeam = 4RWLL37A47;
+						ProvisioningStyle = Automatic;
+					};
+					252F67C31DD53AD700ADCCDE = {
+						CreatedOnToolsVersion = 8.1;
+						DevelopmentTeam = 4RWLL37A47;
+						ProvisioningStyle = Automatic;
+					};
+					252F67DF1DD5452400ADCCDE = {
+						CreatedOnToolsVersion = 8.1;
+						DevelopmentTeam = 4RWLL37A47;
+						ProvisioningStyle = Automatic;
+					};
 					25E417801DCB9EBC00D1E99A = {
 						CreatedOnToolsVersion = 8.0;
-						DevelopmentTeam = FY284969S6;
+						DevelopmentTeam = 4RWLL37A47;
 						ProvisioningStyle = Automatic;
 					};
 					25E417971DCB9EBD00D1E99A = {
@@ -246,11 +444,37 @@
 				25E417801DCB9EBC00D1E99A /* self-chat */,
 				25E417971DCB9EBD00D1E99A /* self-chatTests */,
 				25E417A21DCB9EBD00D1E99A /* self-chatUITests */,
+				252F67BA1DD53AD700ADCCDE /* SelfChatSiriExtension */,
+				252F67C31DD53AD700ADCCDE /* SelfChatSiriExtensionUI */,
+				252F67DF1DD5452400ADCCDE /* Self Chat Today */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		252F67B91DD53AD700ADCCDE /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		252F67C21DD53AD700ADCCDE /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				252F67CD1DD53AD700ADCCDE /* MainInterface.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		252F67DE1DD5452400ADCCDE /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				252F67E81DD5452400ADCCDE /* MainInterface.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		25E4177F1DCB9EBC00D1E99A /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -297,6 +521,30 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		252F67B71DD53AD700ADCCDE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				252F67BE1DD53AD700ADCCDE /* IntentHandler.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		252F67C01DD53AD700ADCCDE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				252F67CA1DD53AD700ADCCDE /* IntentViewController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		252F67DC1DD5452400ADCCDE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				252F67E51DD5452400ADCCDE /* TodayViewController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		25E4177D1DCB9EBC00D1E99A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -330,6 +578,21 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		252F67D01DD53AD700ADCCDE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 252F67C31DD53AD700ADCCDE /* SelfChatSiriExtensionUI */;
+			targetProxy = 252F67CF1DD53AD700ADCCDE /* PBXContainerItemProxy */;
+		};
+		252F67D31DD53AD700ADCCDE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 252F67BA1DD53AD700ADCCDE /* SelfChatSiriExtension */;
+			targetProxy = 252F67D21DD53AD700ADCCDE /* PBXContainerItemProxy */;
+		};
+		252F67EB1DD5452400ADCCDE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 252F67DF1DD5452400ADCCDE /* Self Chat Today */;
+			targetProxy = 252F67EA1DD5452400ADCCDE /* PBXContainerItemProxy */;
+		};
 		25E4179A1DCB9EBD00D1E99A /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 25E417801DCB9EBC00D1E99A /* self-chat */;
@@ -343,6 +606,22 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		252F67CB1DD53AD700ADCCDE /* MainInterface.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				252F67CC1DD53AD700ADCCDE /* Base */,
+			);
+			name = MainInterface.storyboard;
+			sourceTree = "<group>";
+		};
+		252F67E61DD5452400ADCCDE /* MainInterface.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				252F67E71DD5452400ADCCDE /* Base */,
+			);
+			name = MainInterface.storyboard;
+			sourceTree = "<group>";
+		};
 		25E417881DCB9EBD00D1E99A /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -362,6 +641,90 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		252F67D61DD53AD700ADCCDE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEVELOPMENT_TEAM = 4RWLL37A47;
+				INFOPLIST_FILE = SelfChatSiriExtensionUI/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = ru.reutskiy.selfchat.SelfChatSiriExtensionUI;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
+			};
+			name = Debug;
+		};
+		252F67D71DD53AD700ADCCDE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEVELOPMENT_TEAM = 4RWLL37A47;
+				INFOPLIST_FILE = SelfChatSiriExtensionUI/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = ru.reutskiy.selfchat.SelfChatSiriExtensionUI;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
+			};
+			name = Release;
+		};
+		252F67D91DD53AD700ADCCDE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEVELOPMENT_TEAM = 4RWLL37A47;
+				INFOPLIST_FILE = SelfChatSiriExtension/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = ru.reutskiy.selfchat.SelfChatSiriExtension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
+			};
+			name = Debug;
+		};
+		252F67DA1DD53AD700ADCCDE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEVELOPMENT_TEAM = 4RWLL37A47;
+				INFOPLIST_FILE = SelfChatSiriExtension/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = ru.reutskiy.selfchat.SelfChatSiriExtension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
+			};
+			name = Release;
+		};
+		252F67EE1DD5452400ADCCDE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEVELOPMENT_TEAM = 4RWLL37A47;
+				INFOPLIST_FILE = "Self Chat Today/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "ru.reutskiy.selfchat.Self-Chat-Today";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
+			};
+			name = Debug;
+		};
+		252F67EF1DD5452400ADCCDE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEVELOPMENT_TEAM = 4RWLL37A47;
+				INFOPLIST_FILE = "Self Chat Today/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "ru.reutskiy.selfchat.Self-Chat-Today";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
+			};
+			name = Release;
+		};
 		25E417AA1DCB9EBD00D1E99A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -456,8 +819,9 @@
 		25E417AD1DCB9EBD00D1E99A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = FY284969S6;
+				DEVELOPMENT_TEAM = 4RWLL37A47;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)",
@@ -469,7 +833,7 @@
 					"-weak_framework",
 					RevealServer,
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "ru.reutskiy.self-chat";
+				PRODUCT_BUNDLE_IDENTIFIER = ru.reutskiy.selfchat;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};
@@ -478,11 +842,12 @@
 		25E417AE1DCB9EBD00D1E99A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = FY284969S6;
+				DEVELOPMENT_TEAM = 4RWLL37A47;
 				INFOPLIST_FILE = "self-chat/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "ru.reutskiy.self-chat";
+				PRODUCT_BUNDLE_IDENTIFIER = ru.reutskiy.selfchat;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};
@@ -545,6 +910,30 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		252F67D51DD53AD700ADCCDE /* Build configuration list for PBXNativeTarget "SelfChatSiriExtensionUI" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				252F67D61DD53AD700ADCCDE /* Debug */,
+				252F67D71DD53AD700ADCCDE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		252F67D81DD53AD700ADCCDE /* Build configuration list for PBXNativeTarget "SelfChatSiriExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				252F67D91DD53AD700ADCCDE /* Debug */,
+				252F67DA1DD53AD700ADCCDE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		252F67ED1DD5452400ADCCDE /* Build configuration list for PBXNativeTarget "Self Chat Today" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				252F67EE1DD5452400ADCCDE /* Debug */,
+				252F67EF1DD5452400ADCCDE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		25E4177C1DCB9EBC00D1E99A /* Build configuration list for PBXProject "self-chat" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

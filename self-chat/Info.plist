@@ -2,10 +2,39 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>UIApplicationShortcutItems</key>
+	<array>
+		<dict>
+			<key>UIApplicationShortcutItemIconType</key>
+			<string>UIApplicationShortcutIconTypeLocation</string>
+			<key>UIApplicationShortcutItemTitle</key>
+			<string>Send location</string>
+			<key>UIApplicationShortcutItemType</key>
+			<string>com.mycompany.myapp.openfavorites</string>
+			<key>UIApplicationShortcutItemUserInfo</key>
+			<dict>
+				<key>key1</key>
+				<string>value1</string>
+			</dict>
+		</dict>
+		<dict>
+			<key>UIApplicationShortcutItemIconType</key>
+			<string>UIApplicationShortcutIconTypeCompose</string>
+			<key>UIApplicationShortcutItemTitle</key>
+			<string>New Message</string>
+			<key>UIApplicationShortcutItemType</key>
+			<string>com.mycompany.myapp.newmessage</string>
+			<key>UIApplicationShortcutItemUserInfo</key>
+			<dict>
+				<key>key2</key>
+				<string>value2</string>
+			</dict>
+		</dict>
+	</array>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-	<string>Самочат</string>
+	<string>Self Chat</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -23,11 +52,11 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-	<string>Хочу следить за тобой!</string>
+	<string>Хочу наблюдать за тобой</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Хочу знать где ты </string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Хочу знать о тебе всё</string>
+	<string>Хочу видеть всё</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>pfagorasanspro-light.ttf</string>
@@ -44,8 +73,6 @@
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
-		<string>UIInterfaceOrientationLandscapeLeft</string>
-		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 </dict>
 </plist>

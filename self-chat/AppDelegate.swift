@@ -44,6 +44,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.saveContext()
     }
 
+    func application(_ application: UIApplication, performActionFor shortcutItem: UIApplicationShortcutItem, completionHandler: @escaping (Bool) -> Void) {
+        print(shortcutItem)
+    }
+    
     // MARK: - Core Data stack
 
     lazy var persistentContainer: NSPersistentContainer = {
