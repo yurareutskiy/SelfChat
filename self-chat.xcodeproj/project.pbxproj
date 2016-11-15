@@ -15,11 +15,14 @@
 		258B40731DD8C50D00204D97 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 258B40721DD8C50D00204D97 /* Assets.xcassets */; };
 		258B40751DD921E300204D97 /* DismissAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258B40741DD921E300204D97 /* DismissAnimator.swift */; };
 		258B40771DD922B100204D97 /* Interactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258B40761DD922B100204D97 /* Interactor.swift */; };
+		2599E88A1DDA20AD00EF4C9E /* HeaderCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2599E8881DDA20AD00EF4C9E /* HeaderCollectionReusableView.swift */; };
+		2599E88B1DDA20AD00EF4C9E /* HeaderCollectionReusableView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2599E8891DDA20AD00EF4C9E /* HeaderCollectionReusableView.xib */; };
 		25D1DBA11DCE7DBC00B388A9 /* BubbleCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25D1DBA01DCE7DBC00B388A9 /* BubbleCollectionViewCell.swift */; };
 		25D1DBA31DCE838200B388A9 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25D1DBA21DCE838200B388A9 /* Message.swift */; };
 		25D1DBA61DCE87DF00B388A9 /* pfagorasanspro-light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 25D1DBA41DCE87DF00B388A9 /* pfagorasanspro-light.ttf */; };
 		25D1DBA71DCE87DF00B388A9 /* pfagorasanspro-reg.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 25D1DBA51DCE87DF00B388A9 /* pfagorasanspro-reg.ttf */; };
 		25D1DBA91DCF35E700B388A9 /* ChatLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25D1DBA81DCF35E700B388A9 /* ChatLayout.swift */; };
+		25E307971DDB377700DE1EAA /* AutoReplier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25E307961DDB377700DE1EAA /* AutoReplier.swift */; };
 		25E417851DCB9EBD00D1E99A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25E417841DCB9EBD00D1E99A /* AppDelegate.swift */; };
 		25E417871DCB9EBD00D1E99A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25E417861DCB9EBD00D1E99A /* ViewController.swift */; };
 		25E4178A1DCB9EBD00D1E99A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 25E417881DCB9EBD00D1E99A /* Main.storyboard */; };
@@ -55,11 +58,14 @@
 		258B40721DD8C50D00204D97 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		258B40741DD921E300204D97 /* DismissAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DismissAnimator.swift; sourceTree = "<group>"; };
 		258B40761DD922B100204D97 /* Interactor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Interactor.swift; sourceTree = "<group>"; };
+		2599E8881DDA20AD00EF4C9E /* HeaderCollectionReusableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeaderCollectionReusableView.swift; sourceTree = "<group>"; };
+		2599E8891DDA20AD00EF4C9E /* HeaderCollectionReusableView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HeaderCollectionReusableView.xib; sourceTree = "<group>"; };
 		25D1DBA01DCE7DBC00B388A9 /* BubbleCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BubbleCollectionViewCell.swift; sourceTree = "<group>"; };
 		25D1DBA21DCE838200B388A9 /* Message.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		25D1DBA41DCE87DF00B388A9 /* pfagorasanspro-light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "pfagorasanspro-light.ttf"; path = "../../../Downloads/pfagorasanspro-light.ttf"; sourceTree = "<group>"; };
 		25D1DBA51DCE87DF00B388A9 /* pfagorasanspro-reg.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "pfagorasanspro-reg.ttf"; path = "../../../Downloads/pfagorasanspro-reg.ttf"; sourceTree = "<group>"; };
 		25D1DBA81DCF35E700B388A9 /* ChatLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatLayout.swift; sourceTree = "<group>"; };
+		25E307961DDB377700DE1EAA /* AutoReplier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AutoReplier.swift; sourceTree = "<group>"; };
 		25E417811DCB9EBD00D1E99A /* self-chat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "self-chat.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		25E417841DCB9EBD00D1E99A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		25E417861DCB9EBD00D1E99A /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -136,6 +142,9 @@
 				25D1DBA81DCF35E700B388A9 /* ChatLayout.swift */,
 				258B40741DD921E300204D97 /* DismissAnimator.swift */,
 				258B40761DD922B100204D97 /* Interactor.swift */,
+				2599E8881DDA20AD00EF4C9E /* HeaderCollectionReusableView.swift */,
+				25E307961DDB377700DE1EAA /* AutoReplier.swift */,
+				2599E8891DDA20AD00EF4C9E /* HeaderCollectionReusableView.xib */,
 				25E417901DCB9EBD00D1E99A /* LaunchScreen.storyboard */,
 				258B40721DD8C50D00204D97 /* Assets.xcassets */,
 				25E417931DCB9EBD00D1E99A /* Info.plist */,
@@ -275,6 +284,7 @@
 			files = (
 				25D1DBA71DCE87DF00B388A9 /* pfagorasanspro-reg.ttf in Resources */,
 				25E417921DCB9EBD00D1E99A /* LaunchScreen.storyboard in Resources */,
+				2599E88B1DDA20AD00EF4C9E /* HeaderCollectionReusableView.xib in Resources */,
 				25E4178A1DCB9EBD00D1E99A /* Main.storyboard in Resources */,
 				25D1DBA61DCE87DF00B388A9 /* pfagorasanspro-light.ttf in Resources */,
 				258B40731DD8C50D00204D97 /* Assets.xcassets in Resources */,
@@ -319,7 +329,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2599E88A1DDA20AD00EF4C9E /* HeaderCollectionReusableView.swift in Sources */,
 				258B40711DD8AEFD00204D97 /* ModalImageViewController.swift in Sources */,
+				25E307971DDB377700DE1EAA /* AutoReplier.swift in Sources */,
 				252D30C61DD47BE00020A693 /* Server.swift in Sources */,
 				25D1DBA11DCE7DBC00B388A9 /* BubbleCollectionViewCell.swift in Sources */,
 				258B406F1DD5882900204D97 /* LocationManager.swift in Sources */,

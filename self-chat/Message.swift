@@ -32,6 +32,8 @@ class Message: NSObject {
     var image: Data?
     var type: MessageType
     var sender: MessageSenderType = .outcome
+    var latitude: String?
+    var longittude: String?
     
     init(messageText text:String) {
         self.text = text
@@ -74,6 +76,10 @@ class Message: NSObject {
         dictionary.updateValue("", forKey: "image")
         dictionary.updateValue(sender.rawValue, forKey: "sender")
         dictionary.updateValue("", forKey: "text")
+        if type == .location {
+            dictionary.updateValue(longittude ?? "", forKey: "longittude")
+            dictionary.updateValue(latitude ?? "", forKey: "latitude")
+        }
         if text != nil {
             dictionary.updateValue(text!, forKey: "text")
         }

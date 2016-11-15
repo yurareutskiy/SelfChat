@@ -146,24 +146,24 @@
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="n58-OV-12O">
                                                                     <rect key="frame" x="12" y="12" width="36" height="16"/>
-                                                                    <fontDescription key="fontDescription" name="PFAgoraSansPro-Light" family="PF Agora Sans Pro" pointSize="18"/>
+                                                                    <fontDescription key="fontDescription" name="PFAgoraSansPro-Light" family="PF Agora Sans Pro" pointSize="17"/>
                                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BUM-he-ySW">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="64.5" height="42"/>
+                                                                    <rect key="frame" x="0.0" y="0.0" width="62" height="42"/>
                                                                 </button>
                                                             </subviews>
                                                             <color key="backgroundColor" red="0.047058823529411764" green="0.52156862745098043" blue="0.99607843137254903" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <constraints>
-                                                                <constraint firstAttribute="bottom" secondItem="n58-OV-12O" secondAttribute="bottom" constant="12" id="7Sc-kv-Mym"/>
+                                                                <constraint firstAttribute="bottom" secondItem="n58-OV-12O" secondAttribute="bottom" constant="10" id="7Sc-kv-Mym"/>
                                                                 <constraint firstItem="n58-OV-12O" firstAttribute="leading" secondItem="k7o-J4-LXc" secondAttribute="leading" constant="12" id="ED3-fJ-cQN"/>
                                                                 <constraint firstItem="BUM-he-ySW" firstAttribute="top" secondItem="k7o-J4-LXc" secondAttribute="top" id="HLV-sF-0Hw"/>
                                                                 <constraint firstItem="BUM-he-ySW" firstAttribute="leading" secondItem="k7o-J4-LXc" secondAttribute="leading" id="THN-ul-koN"/>
                                                                 <constraint firstAttribute="trailing" secondItem="n58-OV-12O" secondAttribute="trailing" constant="12" id="UT1-FM-bbl"/>
                                                                 <constraint firstAttribute="bottom" secondItem="BUM-he-ySW" secondAttribute="bottom" id="UdX-6F-Nug"/>
                                                                 <constraint firstAttribute="trailing" secondItem="BUM-he-ySW" secondAttribute="trailing" id="i8U-pZ-7VI"/>
-                                                                <constraint firstItem="n58-OV-12O" firstAttribute="top" secondItem="k7o-J4-LXc" secondAttribute="top" constant="12" id="yGa-VY-HAn"/>
+                                                                <constraint firstItem="n58-OV-12O" firstAttribute="top" secondItem="k7o-J4-LXc" secondAttribute="top" constant="10" id="yGa-VY-HAn"/>
                                                             </constraints>
                                                         </view>
                                                     </subviews>
@@ -190,23 +190,23 @@
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4p2-3X-Ytr" customClass="UIImageView">
-                                                            <rect key="frame" x="8" y="4" width="64.5" height="42"/>
+                                                            <rect key="frame" x="8" y="4" width="62" height="42"/>
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QIV-NQ-noq">
-                                                                    <rect key="frame" x="12" y="12" width="40.5" height="18"/>
-                                                                    <fontDescription key="fontDescription" name="PFAgoraSansPro-Light" family="PF Agora Sans Pro" pointSize="18"/>
+                                                                    <rect key="frame" x="12" y="10" width="38" height="22"/>
+                                                                    <fontDescription key="fontDescription" name="PFAgoraSansPro-Light" family="PF Agora Sans Pro" pointSize="17"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2KB-jp-mXn">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="64.5" height="42"/>
+                                                                    <rect key="frame" x="0.0" y="0.0" width="62" height="42"/>
                                                                 </button>
                                                             </subviews>
                                                             <color key="backgroundColor" white="0.80436197916666663" alpha="1" colorSpace="calibratedWhite"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="bottom" secondItem="2KB-jp-mXn" secondAttribute="bottom" id="4M2-2x-UU0"/>
                                                                 <constraint firstItem="2KB-jp-mXn" firstAttribute="leading" secondItem="4p2-3X-Ytr" secondAttribute="leading" id="CUO-Wl-6Hq"/>
-                                                                <constraint firstItem="QIV-NQ-noq" firstAttribute="top" secondItem="4p2-3X-Ytr" secondAttribute="top" constant="12" id="EI1-SI-jyW"/>
-                                                                <constraint firstAttribute="bottom" secondItem="QIV-NQ-noq" secondAttribute="bottom" constant="12" id="Fyi-zl-sYW"/>
+                                                                <constraint firstItem="QIV-NQ-noq" firstAttribute="top" secondItem="4p2-3X-Ytr" secondAttribute="top" constant="10" id="EI1-SI-jyW"/>
+                                                                <constraint firstAttribute="bottom" secondItem="QIV-NQ-noq" secondAttribute="bottom" constant="10" id="Fyi-zl-sYW"/>
                                                                 <constraint firstItem="2KB-jp-mXn" firstAttribute="top" secondItem="4p2-3X-Ytr" secondAttribute="top" id="M4Z-gI-gf7"/>
                                                                 <constraint firstItem="QIV-NQ-noq" firstAttribute="leading" secondItem="4p2-3X-Ytr" secondAttribute="leading" constant="12" id="WfO-6G-fEy"/>
                                                                 <constraint firstAttribute="trailing" secondItem="QIV-NQ-noq" secondAttribute="trailing" constant="12" id="X7O-pi-uP8"/>

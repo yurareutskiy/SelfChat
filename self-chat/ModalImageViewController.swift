@@ -114,7 +114,7 @@ class ModalImageViewController: UIViewController {
     }
     
     func showHelperCircle(){
-        let center = CGPoint(x: view.bounds.width * 0.5, y: 100)
+        let center = CGPoint(x: view.bounds.width / 2 - 15, y: 100)
         let small = CGSize(width: 30, height: 30)
         let circle = UIView(frame: CGRect(origin: center, size: small))
         circle.layer.cornerRadius = circle.frame.width/2
@@ -124,7 +124,7 @@ class ModalImageViewController: UIViewController {
         view.addSubview(circle)
         UIView.animate(
             withDuration: 0.5,
-            delay: 0.25,
+            delay: 0.1,
             options: [],
             animations: {
                 circle.frame.origin.y += 200

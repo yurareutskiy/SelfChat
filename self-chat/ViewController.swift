@@ -27,6 +27,7 @@ class ViewController: UIViewController, UITextViewDelegate {
     
     // Array of messages divided by date
     var sourceArray: [String: [Message]] = [:]
+    var keysArray: [String] = []
 
     
     
@@ -90,7 +91,9 @@ class ViewController: UIViewController, UITextViewDelegate {
         collectionView.dataSource = self
         if let layout = collectionView?.collectionViewLayout as? ChatLayout {
             layout.delegate = self
+            collectionView.register(UINib.init(nibName: "HeaderCollectionReusableView", bundle: Bundle.main), forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "header")
         }
+        
         loadData()
     }
 
@@ -147,6 +150,8 @@ class ViewController: UIViewController, UITextViewDelegate {
                     case "location":
                         message = Message(urlImage: item["image"] as! String)
                         message.type = .location
+                        message.latitude = item["latitude"] as! String?
+                        message.longittude = item["longittude"] as! String?
                         break
                     default:
                         print("invalid type")
@@ -165,6 +170,7 @@ class ViewController: UIViewController, UITextViewDelegate {
                     let dateKey = message.getDateString()
                     if self.sourceArray.keys.contains(dateKey) == false {
                         self.sourceArray[dateKey] = []
+                        self.keysArray.append(dateKey)
                     }
                     self.sourceArray[dateKey]?.append(message)
 
@@ -290,11 +296,17 @@ class ViewController: UIViewController, UITextViewDelegate {
     }
     
     func sendToServer(_ message: Message) {
+        if message.getDateString() != messageArray.last?.getDateString() {
+            keysArray.append(message.getDateString())
+            sourceArray.updateValue([message], forKey: keysArray.last!)
+        } else {
+            sourceArray[keysArray.last!]?.append(message)
+        }
         messageArray.append(message)
         if messageArray.count == 1 {
             collectionView.reloadData()
         } else {
-            let indexPath = IndexPath.init(item: messageArray.count - 1, section: 0)
+            let indexPath = IndexPath.init(item: sourceArray[keysArray.last!]!.count - 1, section: keysArray.count - 1)
             self.collectionView.insertItems(at: [indexPath])
         }
  
@@ -302,6 +314,15 @@ class ViewController: UIViewController, UITextViewDelegate {
             let json = try JSONSerialization.data(withJSONObject: message.serialize(), options: JSONSerialization.WritingOptions.prettyPrinted)
             ServerTask().sendMessage(stringData: json, callback: { (isSend, resultId) in
                 if isSend {
+                    if message.sender == .outcome {
+                        let reply = AutoReplier.init(message).commonReply()
+                        if reply != nil {
+                            DispatchQueue.main.async(execute: {
+                                self.sendToServer(reply!)
+                            })
+                            
+                        }
+                    }
                     print("message is send")
                     if message.type != .text {
                         ServerTask().sendPhoto(data: message.image!, messageId: resultId!, callback: { (isFinished) in
@@ -318,6 +339,8 @@ class ViewController: UIViewController, UITextViewDelegate {
         } catch {
             print("deserialize is failure")
         }
+        
+
         
     }
     
@@ -804,16 +827,35 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource, 
         return collectionView.collectionViewLayout
     }
     
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return keysArray.count
+    }
+    
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return messageArray.count
+        return sourceArray[keysArray[section]]!.count
     }
     
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell: BubbleCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: "income", for: indexPath) as! BubbleCollectionViewCell
         
-        let message = messageArray[indexPath.row]
+        let messageDayArray = sourceArray[keysArray[indexPath.section]]
+        let message = messageDayArray![indexPath.row]
+        
+        var ientifier = "outcome"
+        if message.sender == .income {
+            ientifier = "income"
+        }
+        
+        let cell: BubbleCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: ientifier, for: indexPath) as! BubbleCollectionViewCell
+        
+        if indexPath.row == 0 && messageDayArray!.count > 1 {
+            cell.rounedType = .first
+        } else if indexPath.row == messageDayArray!.count - 1 && messageDayArray!.count > 1 {
+            cell.rounedType = .last
+        } else {
+            cell.rounedType = .middle
+        }
         if message.type == .text {
             cell.textLabel.isHidden = false
             cell.textLabel.text = message.text
@@ -824,8 +866,8 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource, 
             cell.textLabel.isHidden = true
             cell.imageView.image = image
             cell.actionButton.isEnabled = true
-            cell.actionButton.tag = indexPath.row
-            cell.actionButton.addTarget(self, action: #selector(showAttachment(fromCell:)), for: .touchUpInside)
+            cell.actionButton.tag = messageArray.index(of: message)!
+            cell.actionButton.addTarget(self, action: #selector(showAttachment(fromCellButon:)), for: .touchUpInside)
             cell.imageView.contentMode = .scaleAspectFill
             var bubbleHeight = image!.size.height
             var bubbleWidth = image!.size.width
@@ -840,6 +882,8 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource, 
         
         cell.imageView.layer.cornerRadius = 20
         cell.imageView.clipsToBounds = true
+        //cell.roundCell()
+
         
         return cell
     }
@@ -852,7 +896,8 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource, 
         
         let textPadding = CGFloat(4) // Margin between text label and bubbles border on LEFT and RIGHT
         let margin = CGFloat(12) // Margin between text label and bubbles border on TOP and BOTTOM
-        let message = messageArray[indexPath.item]
+        let messageDayArray = sourceArray[keysArray[indexPath.section]]
+        let message = messageDayArray![indexPath.row]
         var contentHeight: CGFloat = 0
         let maximumWidth = collectionView.bounds.width - 100 //
 
@@ -878,29 +923,36 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource, 
             }
         }
         
-        
         return contentHeight + (2 * margin)
     }
     
-    func showAttachment(fromCell cell: BubbleCollectionViewCell) {
-        let message = messageArray[cell.tag]
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        let supplementaryView = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "header", for: indexPath) as! HeaderCollectionReusableView
+        supplementaryView.dateLabel.text = keysArray[indexPath.section]
+        return supplementaryView
+    }
+    
+    
+    func showAttachment(fromCellButon button: UIButton) {
+        let message = messageArray[button.tag]
         if message.type == .image {
-            /*let image = UIImage(data: message.image!)
-            let vc = ModalImageViewController()
-            vc.loadViewIfNeeded()
-            vc.imageView?.image = image
-            vc.modalPresentationStyle = .custom
-            vc.modalTransitionStyle = .crossDissolve
-            present(vc, animated: true, completion: {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 4.0, execute: {
-                    vc.dismiss(animated: true, completion: nil)
-                })
-            })*/
             performSegue(withIdentifier: "image", sender: message)
         } else if message.type == .location {
-        
+            let lat = message.latitude
+            let long = message.longittude
+            let baseUrl : String = "comgooglemaps://?center=" + lat! + "," + long! + "&zoom=14&views=traffic"
+            //let name : String = message.text!
+            
+            //let encodedName = name.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
+            
+            let finalUrl = baseUrl //+ encodedName!
+            
+            let url = URL(string: finalUrl)
+            UIApplication.shared.open(url!, options: [:], completionHandler: nil)
         }
     }
+    
+
 
 }
 
@@ -936,6 +988,8 @@ extension ViewController: CLLocationManagerDelegate {
             // Just take snapshot of our location
             takeSnapshot(byLocation: location!, withCallback: { (image, error) in
                 let message = Message(messageImage: UIImagePNGRepresentation(image!)!)
+                message.latitude = String(location!.coordinate.latitude)
+                message.longittude = String(location!.coordinate.longitude)
                 message.type = .location
                 self.sendToServer(message)
             })
