@@ -18,12 +18,13 @@ class BubbleCollectionViewCell: UICollectionViewCell {
 
     @IBOutlet weak var actionButton: UIButton!
     @IBOutlet weak var textLabel: UILabel!
-    @IBOutlet weak var imageView: UIImageView!
+    @IBOutlet weak var imageView: BubbleImageView!
     @IBOutlet weak var bubbleMarginLeftConstraint: NSLayoutConstraint!
     var rounedType: CellRounedType = .middle
     
     override func prepareForReuse() {
     }
+
     
     func roundCell() {
         let radius: CGFloat = 12

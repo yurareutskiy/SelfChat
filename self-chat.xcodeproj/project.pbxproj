@@ -17,6 +17,7 @@
 		258B40771DD922B100204D97 /* Interactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258B40761DD922B100204D97 /* Interactor.swift */; };
 		2599E88A1DDA20AD00EF4C9E /* HeaderCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2599E8881DDA20AD00EF4C9E /* HeaderCollectionReusableView.swift */; };
 		2599E88B1DDA20AD00EF4C9E /* HeaderCollectionReusableView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2599E8891DDA20AD00EF4C9E /* HeaderCollectionReusableView.xib */; };
+		25A19DEF1DE4DBE4000E131D /* BubbleImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25A19DEE1DE4DBE4000E131D /* BubbleImageView.swift */; };
 		25D1DBA11DCE7DBC00B388A9 /* BubbleCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25D1DBA01DCE7DBC00B388A9 /* BubbleCollectionViewCell.swift */; };
 		25D1DBA31DCE838200B388A9 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25D1DBA21DCE838200B388A9 /* Message.swift */; };
 		25D1DBA61DCE87DF00B388A9 /* pfagorasanspro-light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 25D1DBA41DCE87DF00B388A9 /* pfagorasanspro-light.ttf */; };
@@ -60,6 +61,7 @@
 		258B40761DD922B100204D97 /* Interactor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Interactor.swift; sourceTree = "<group>"; };
 		2599E8881DDA20AD00EF4C9E /* HeaderCollectionReusableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeaderCollectionReusableView.swift; sourceTree = "<group>"; };
 		2599E8891DDA20AD00EF4C9E /* HeaderCollectionReusableView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HeaderCollectionReusableView.xib; sourceTree = "<group>"; };
+		25A19DEE1DE4DBE4000E131D /* BubbleImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BubbleImageView.swift; sourceTree = "<group>"; };
 		25D1DBA01DCE7DBC00B388A9 /* BubbleCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BubbleCollectionViewCell.swift; sourceTree = "<group>"; };
 		25D1DBA21DCE838200B388A9 /* Message.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		25D1DBA41DCE87DF00B388A9 /* pfagorasanspro-light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "pfagorasanspro-light.ttf"; path = "../../../Downloads/pfagorasanspro-light.ttf"; sourceTree = "<group>"; };
@@ -141,6 +143,7 @@
 				25D1DBA01DCE7DBC00B388A9 /* BubbleCollectionViewCell.swift */,
 				25D1DBA81DCF35E700B388A9 /* ChatLayout.swift */,
 				258B40741DD921E300204D97 /* DismissAnimator.swift */,
+				25A19DEE1DE4DBE4000E131D /* BubbleImageView.swift */,
 				258B40761DD922B100204D97 /* Interactor.swift */,
 				2599E8881DDA20AD00EF4C9E /* HeaderCollectionReusableView.swift */,
 				25E307961DDB377700DE1EAA /* AutoReplier.swift */,
@@ -339,6 +342,7 @@
 				25D1DBA31DCE838200B388A9 /* Message.swift in Sources */,
 				25D1DBA91DCF35E700B388A9 /* ChatLayout.swift in Sources */,
 				258B40751DD921E300204D97 /* DismissAnimator.swift in Sources */,
+				25A19DEF1DE4DBE4000E131D /* BubbleImageView.swift in Sources */,
 				258B40771DD922B100204D97 /* Interactor.swift in Sources */,
 				25E4178D1DCB9EBD00D1E99A /* self_chat.xcdatamodeld in Sources */,
 				25E417851DCB9EBD00D1E99A /* AppDelegate.swift in Sources */,

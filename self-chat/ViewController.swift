@@ -112,6 +112,7 @@ class ViewController: UIViewController, UITextViewDelegate {
         } else {
             inputTextView.textColor = UIColor.black
         }
+        
     }
     
     override func didReceiveMemoryWarning() {
@@ -122,6 +123,8 @@ class ViewController: UIViewController, UITextViewDelegate {
     deinit {
         PHPhotoLibrary.shared().unregisterChangeObserver(self)
     }
+
+    
     
     override var prefersStatusBarHidden: Bool {
         return isCameraExpanded
@@ -859,12 +862,12 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource, 
         if message.type == .text {
             cell.textLabel.isHidden = false
             cell.textLabel.text = message.text
-            cell.imageView.image = nil
+            cell.imageView.layer.contents = nil
             cell.actionButton.isEnabled = false
         } else {
             let image = UIImage(data: message.image!)
             cell.textLabel.isHidden = true
-            cell.imageView.image = image
+            cell.imageView.layer.contents = image
             cell.actionButton.isEnabled = true
             cell.actionButton.tag = messageArray.index(of: message)!
             cell.actionButton.addTarget(self, action: #selector(showAttachment(fromCellButon:)), for: .touchUpInside)
@@ -879,9 +882,9 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource, 
             cell.imageView.frame.size.height = bubbleHeight
             
         }
-        
-        cell.imageView.layer.cornerRadius = 20
+        //cell.imageView.layer.cornerRadius = 20
         cell.imageView.clipsToBounds = true
+        cell.imageView.setNeedsDisplay()
         //cell.roundCell()
 
         
