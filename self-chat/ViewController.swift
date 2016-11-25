@@ -124,8 +124,6 @@ class ViewController: UIViewController, UITextViewDelegate {
         PHPhotoLibrary.shared().unregisterChangeObserver(self)
     }
 
-    
-    
     override var prefersStatusBarHidden: Bool {
         return isCameraExpanded
     }
@@ -304,14 +302,11 @@ class ViewController: UIViewController, UITextViewDelegate {
             sourceArray.updateValue([message], forKey: keysArray.last!)
         } else {
             sourceArray[keysArray.last!]?.append(message)
+            //let indexPath = IndexPath.init(item: sourceArray[keysArray.last!]!.count - 1, section: keysArray.count - 1)
+            //self.collectionView.insertItems(at: [indexPath])
         }
         messageArray.append(message)
-        if messageArray.count == 1 {
-            collectionView.reloadData()
-        } else {
-            let indexPath = IndexPath.init(item: sourceArray[keysArray.last!]!.count - 1, section: keysArray.count - 1)
-            self.collectionView.insertItems(at: [indexPath])
-        }
+        collectionView.reloadData()
  
         do {
             let json = try JSONSerialization.data(withJSONObject: message.serialize(), options: JSONSerialization.WritingOptions.prettyPrinted)
@@ -845,33 +840,30 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource, 
         let messageDayArray = sourceArray[keysArray[indexPath.section]]
         let message = messageDayArray![indexPath.row]
         
+        // Possible implement cache for previous days in source array, it cells couldn't change form due new messages
+        message.rondedType = calculateCorners(forMessage: indexPath.row, messageArray: messageDayArray!)
+        
         var ientifier = "outcome"
         if message.sender == .income {
             ientifier = "income"
         }
         
         let cell: BubbleCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: ientifier, for: indexPath) as! BubbleCollectionViewCell
-        
-        if indexPath.row == 0 && messageDayArray!.count > 1 {
-            cell.rounedType = .first
-        } else if indexPath.row == messageDayArray!.count - 1 && messageDayArray!.count > 1 {
-            cell.rounedType = .last
-        } else {
-            cell.rounedType = .middle
-        }
+
         if message.type == .text {
             cell.textLabel.isHidden = false
             cell.textLabel.text = message.text
-            cell.imageView.layer.contents = nil
+            cell.imageView.image = nil
             cell.actionButton.isEnabled = false
         } else {
             let image = UIImage(data: message.image!)
             cell.textLabel.isHidden = true
-            cell.imageView.layer.contents = image
+            cell.imageView.image = image
+            
+            
             cell.actionButton.isEnabled = true
             cell.actionButton.tag = messageArray.index(of: message)!
             cell.actionButton.addTarget(self, action: #selector(showAttachment(fromCellButon:)), for: .touchUpInside)
-            cell.imageView.contentMode = .scaleAspectFill
             var bubbleHeight = image!.size.height
             var bubbleWidth = image!.size.width
             if image!.size.width > maxBubbleWidth {
@@ -880,17 +872,51 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource, 
             }
             cell.imageView.frame.size.width = bubbleWidth
             cell.imageView.frame.size.height = bubbleHeight
-            
+            cell.imageView.contentMode = .scaleAspectFill
         }
         //cell.imageView.layer.cornerRadius = 20
         cell.imageView.clipsToBounds = true
-        cell.imageView.setNeedsDisplay()
-        //cell.roundCell()
+        cell.imageView.roundedCorners(depenceOnMessage: message)
+        print(cell.imageView.frame.debugDescription)
 
         
         return cell
     }
     
+    func calculateCorners(forMessage messageIndex: Int, messageArray: [Message]) -> MessagePositionInBlockType {
+        if messageArray.count == 1 {
+            return .alone
+        }
+        let message = messageArray[messageIndex]
+        if messageArray.count - 1 == messageIndex {
+            let prevMessage = messageArray[messageIndex - 1]
+            if prevMessage.sender == message.sender {
+                return .last
+            } else {
+                return .alone
+            }
+        }
+        let nextMessage = messageArray[messageIndex + 1]
+        if messageIndex == 0 {
+            if message.sender == nextMessage.sender {
+                return .first
+            } else {
+                return .alone
+            }
+        }
+        let prevMessage = messageArray[messageIndex - 1]
+        if prevMessage.sender == message.sender {
+            if message.sender == nextMessage.sender {
+                return .middle
+            } else {
+                return .last
+            }
+        } else if message.sender == nextMessage.sender {
+            return .first
+        }
+        
+        return .alone
+    }
 
     func collectionView(_ collectionView:UICollectionView, heightForItemAtIndexPath indexPath: NSIndexPath, withWidth width: CGFloat) -> CGFloat {
         

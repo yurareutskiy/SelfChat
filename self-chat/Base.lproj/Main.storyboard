@@ -154,7 +154,7 @@
                                                                     <rect key="frame" x="0.0" y="0.0" width="62" height="42"/>
                                                                 </button>
                                                             </subviews>
-                                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                            <color key="backgroundColor" red="0.047058823530000002" green="0.52156862749999999" blue="0.99607843139999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="bottom" secondItem="n58-OV-12O" secondAttribute="bottom" constant="10" id="7Sc-kv-Mym"/>
                                                                 <constraint firstItem="n58-OV-12O" firstAttribute="leading" secondItem="k7o-J4-LXc" secondAttribute="leading" constant="12" id="ED3-fJ-cQN"/>
@@ -201,7 +201,7 @@
                                                                     <rect key="frame" x="0.0" y="0.0" width="62" height="42"/>
                                                                 </button>
                                                             </subviews>
-                                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                            <color key="backgroundColor" white="0.85009765628333334" alpha="1" colorSpace="calibratedWhite"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="bottom" secondItem="2KB-jp-mXn" secondAttribute="bottom" id="4M2-2x-UU0"/>
                                                                 <constraint firstItem="2KB-jp-mXn" firstAttribute="leading" secondItem="4p2-3X-Ytr" secondAttribute="leading" id="CUO-Wl-6Hq"/>

@@ -24,6 +24,7 @@ enum MessagePositionInBlockType {
     case first
     case middle
     case last
+    case alone
 }
 
 class Message: NSObject {
@@ -34,6 +35,8 @@ class Message: NSObject {
     var sender: MessageSenderType = .outcome
     var latitude: String?
     var longittude: String?
+    var rondedType: MessagePositionInBlockType = .alone
+    
     
     init(messageText text:String) {
         self.text = text
@@ -86,6 +89,7 @@ class Message: NSObject {
         
         return ["message": dictionary]
     }
+    
     
 }
 extension Date {

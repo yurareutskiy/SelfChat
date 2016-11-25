@@ -48,7 +48,7 @@ class AutoReplier: NSObject {
         } else if wordsArray.contains("как") {
             return "Легко"
         } else {
-            return "😊"
+            return nil
         }
     }
     
