@@ -180,7 +180,6 @@ class ViewController: UIViewController, UITextViewDelegate {
                 print(self.sourceArray)
                 DispatchQueue.main.async(execute: {
                     self.collectionView.reloadData()
-                    
                 })
             }
         }
